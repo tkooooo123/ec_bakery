@@ -34,11 +34,12 @@ function Header() {
                             account_circle
                         </span>
                         </a>
-                        <a className="icon-list-item text-black d-flex align-items-center " href="#">
+                        <a className="icon-list-item text-black d-flex align-items-center me-3" href="#">
                         <span className="material-icons fs-2">
                             local_mall
                         </span>
                         </a>
+                        <NavLink className="text-black fw-bold" to="/login">登入/註冊</NavLink>
                        
 
                     </ul>
