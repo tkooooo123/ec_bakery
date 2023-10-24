@@ -1,23 +1,34 @@
 import { useEffect, useState } from 'react';
+import { Link, useSearchParams } from 'react-router-dom';
 import ProductsApi from '../../apis/products';
+
 
 function Products() {
     const [categories, setCategories] = useState([]);
     const [currentCategory, setCurrentCategory] = useState("");
-    const [categoryId, setCategoryId] = useState("");
+   
     const [currentPage, setCurrentPage] = useState(1);
     const [products, setProducts] = useState([]);
+
+    const [searchParams] = useSearchParams();
+    const queryCategoryId = searchParams.get('categoryId')
+    const [categoryId, setCategoryId] = useState("");
+
+
+  
+
     const fetchProducts = async () => {
         try {
             console.log(categoryId)
             const res = await ProductsApi.getProducts({
                 page: currentPage,
-                categoryId
+                categoryId:  categoryId
             })
             console.log(res)
             console.log(res.data)
             setCategories([...res.data.categories]);
             setProducts([...res.data.products]);
+            
         } catch (error) {
             console.log(error)
         }
@@ -25,9 +36,29 @@ function Products() {
 
 
 
+    
+
+    
+
+    useEffect(() => {
+        setCategoryId(queryCategoryId)
+    }, [queryCategoryId])
+
+  
+  
     useEffect(() => {
         fetchProducts();
-    }, [categoryId])
+    }, [categoryId, currentCategory])
+
+    useEffect(() => {
+        const category  = categories.filter((item) => item.id === Number(categoryId))[0]
+        if(categories.length && category) {
+            setCurrentCategory(category.name)         
+        }
+    }, [categories, categoryId])
+
+   
+
 
 
     return (
@@ -42,10 +73,10 @@ function Products() {
                                 setCategoryId("");
                             }}><span>全部商品</span>
                             </li>
-                            
+
                             {categories.map((category) => {
                                 return (
-                                    <li className={`categories-list-item fw-bold mt-3 ${currentCategory === category.name ? "active" : ""}`}  key={category.id} onClick={() => {
+                                    <li className={`categories-list-item fw-bold mt-3 ${currentCategory === category.name ? "active" : ""}`} key={category.id} onClick={() => {
                                         setCurrentCategory(category.name);
                                         setCategoryId(category.id)
                                     }} ><span>{category.name}</span></li>
@@ -59,16 +90,18 @@ function Products() {
                             {products.map((product) => {
                                 return (
                                     <div className="col-lg-4 col-md-6 mb-3" key={product.id}>
-                                       <div className="product-card">
-                                       <div className="img-wrapper">
-                                       <img className="product-card-img" src={product.image} alt="商品圖片" />
-                                       </div>
-                                           <div className="card-body p-3">
+                                        <Link to={`/product/${product.id}`}>
+                                        <div className="product-card">
+                                            <div className="img-wrapper">
+                                                <img className="product-card-img" src={product.image} alt={product.name} />
+                                            </div>
+                                            <div className="card-body p-3">
                                                 <h5 className="product-card-title fw-bold">{product.name}</h5>
                                                 <p className="fw-bold text-danger">NT${product.price}</p>
-                                                <a href="#" className="btn btn-primary">加入購物車</a>
+                                                <button href="#" className="btn btn-primary">加入購物車</button>
                                             </div>
-                                       </div>
+                                        </div>
+                                        </Link>
                                     </div>
                                 )
                             })}
