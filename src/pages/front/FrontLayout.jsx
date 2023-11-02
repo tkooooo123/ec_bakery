@@ -1,7 +1,7 @@
 import { Outlet } from 'react-router-dom';
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
-import { useContext, useReducer } from 'react';
+import { useReducer } from 'react';
 
 import Message from "../../components/Message";
 import { MessageContext, MessageReducer, initState } from "../../store/messageStore";
