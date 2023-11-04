@@ -1,7 +1,12 @@
 import { NavLink } from "react-router-dom";
-
+import { useContext } from "react";
+import { AuthContext } from '../store/AuthContext';
 
 function Header() {
+
+    const auth = useContext(AuthContext);
+    const { test, logout } = auth;
+    const { isAuthenticated } = test
 
     return (
         <>
@@ -40,7 +45,14 @@ function Header() {
                             local_mall
                         </span>
                         </NavLink>
-                        <NavLink className="text-black fw-bold" to="/login">登入/註冊</NavLink>
+                        {!isAuthenticated && (
+                            <NavLink className="text-black fw-bold" to="/login">登入/註冊</NavLink>
+                        )}
+                         {isAuthenticated && (
+                            <NavLink className="text-black fw-bold" to="/"
+                            onClick={logout}
+                            >登出</NavLink>
+                        )}
                        
 
                     </ul>

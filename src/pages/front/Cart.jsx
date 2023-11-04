@@ -3,13 +3,18 @@ import CartApi from '../../apis/cart';
 import { useContext, } from 'react';
 import { MessageContext, handleErrorMessage } from "../../store/messageStore";
 import Stepper from '../../components/Stepper'
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { AuthContext } from '../../store/AuthContext';
 
 function Cart() {
     const [total, setTotal] = useState('');
     const [cart, setCart] = useState([]);
-    const [stepper, setStepper] = useState(1)
+    const [stepper, setStepper] = useState(1);
     const [, dispatch] = useContext(MessageContext);
+    const auth = useContext(AuthContext);
+    const { isAuthenticated } = auth.test;
+    const navigate = useNavigate();
+
 
     const getCart = async () => {
         try {
@@ -63,8 +68,12 @@ function Cart() {
 
     }
     useEffect(() => {
-        console.log(cart)
-        getCart();
+        if(!isAuthenticated) {
+            navigate('/login')
+        } else {
+            getCart();
+        }
+        
     }, [])
 
     return (

@@ -16,31 +16,32 @@ function Login() {
     } = useForm({
         mode: 'onTouched'
     });
-    //const navigate = useNavigate();
+    const navigate = useNavigate();
 
     const loginSubmit = async (data) => {
         try {
-            console.log(data)
+          
             const res = await AuthorizationApi.signIn(data);
-            console.log(res, res.data)
-            //儲存token
+            console.log('res', res)
+            
+            if(res.status === 200) {
+                console.log('123')
+                //儲存token
             localStorage.setItem("token", res.data.token);
+            navigate('/')
+            handleSuccessMessage(dispatch, res.data);
 
-            handleSuccessMessage(dispatch, res.data)
+            }
 
-
-
+            
 
         } catch (error) {
-            handleErrorMessage(dispatch, error)
-
-
-            console.log('123', error)
+            handleErrorMessage(dispatch, error);
+            console.log(error)
         }
     }
     return (
         <>
-            
                 <div className="container">
                     <div className="row my-5">
                         <div className="col-5 mx-auto">
