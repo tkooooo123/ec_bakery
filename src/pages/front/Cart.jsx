@@ -11,15 +11,21 @@ function Cart() {
     const [cart, setCart] = useState([]);
     const [stepper, setStepper] = useState(1);
     const [, dispatch] = useContext(MessageContext);
-    const auth = useContext(AuthContext);
-    const { isAuthenticated } = auth.test;
+    const auth  = useContext(AuthContext);
+    const { token } = auth.user
+  
+ 
     const navigate = useNavigate();
 
 
     const getCart = async () => {
         try {
+           
+               
+  
             const res = await CartApi.getCart()
             console.log('cart', res.data)
+            
             setTotal(res.data.totalPrice)
             setCart(res.data.carts);
 
@@ -67,15 +73,14 @@ function Cart() {
         }
 
     }
-    useEffect(() => {
-        if(!isAuthenticated) {
-            navigate('/login')
-        } else {
-            getCart();
-        }
-        
-    }, [])
-
+    useEffect(() => {  
+     if(!token) {
+        navigate('/login')
+     } else {
+        getCart();
+     }    
+    }, []);
+  
     return (
         <>
             <div className="container">

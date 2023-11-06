@@ -8,8 +8,9 @@ export const AuthProvider = ({ children }) => {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [userId, setUserId] = useState('');
     const { pathname } = useLocation();
-    const test = {
-        token: "",
+    const authToken = localStorage.getItem('token');
+    const user = {
+        token: authToken,
         userId,
         isAuthenticated,
     }
@@ -19,14 +20,13 @@ export const AuthProvider = ({ children }) => {
  
     }
     const checkTokenIsValid = async () => {
-        const authToken = localStorage.getItem('token');
         if (!authToken) {
           setIsAuthenticated(false);
           return;
         }
         const result = await AuthorizationApi.getCurrentUser();
         if (result) {
-          test.token = authToken;
+          user.token = authToken;
           setIsAuthenticated(true);
           setUserId(result.data.currentUser.id);
         } else {
@@ -40,7 +40,7 @@ export const AuthProvider = ({ children }) => {
       }, [pathname]);
     return (
         <AuthContext.Provider value={{
-          test,
+          user,
           logout
           }}>
             {children}
