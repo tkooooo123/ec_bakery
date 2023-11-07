@@ -35,11 +35,11 @@ function Header({cartData}) {
 
                     </div>
                     <ul className="icon-list d-flex justify-content-center mb-0">
-                        <a className="icon-list-item text-black d-flex align-items-center me-3" href="#">
+                        <NavLink to="/account/profile" className="icon-list-item text-black d-flex align-items-center me-3" >
                         <span className="material-icons fs-2">
                             account_circle
                         </span>
-                        </a>
+                        </NavLink>
                       
                         <NavLink to="/cart" className="icon-list-item text-black d-flex align-items-center me-3 position-relative">
                         <span className="material-icons fs-2">
