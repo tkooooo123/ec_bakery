@@ -7,14 +7,15 @@ import OrderApi from '../../apis/order';
 import { useForm } from 'react-hook-form';
 import { Input } from '../../components/FormElements';
 import { AuthContext } from '../../store/AuthContext';
+import { useNavigate } from 'react-router-dom';
 function Checkout() {
     const [stepper, setStepper] = useState(2);
     const [cart, setCart] = useState([]);
     const [total, setTotal] = useState('');
     const [, dispatch] = useContext(MessageContext);
     const auth = useContext(AuthContext);
-    const { userId } = auth.test
-    
+    const { userId } = auth.user
+    const navigate = useNavigate();
     const {
         register,
         handleSubmit,
@@ -53,10 +54,12 @@ function Checkout() {
             }
             console.log(formData)
             const res = await OrderApi.postOrder(formData);
-            console.log(res.data)
-            console.log(auth)
+            console.log(res.data.order)
+            navigate(`/success/${res.data.order.id}`);
+    
 
         } catch (error) {
+            handleErrorMessage(dispatch, error);
             console.log(error)
         }
     }

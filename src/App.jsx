@@ -9,7 +9,7 @@ import Login from './pages/front/Login';
 import Register from './pages/front/Register';
 import Cart from './pages/front/Cart';
 import Checkout from './pages/front/Checkout';
-
+import Success from './pages/front/Success';
 import { MessageContext, MessageReducer, initState } from './store/messageStore';
 import { useReducer } from 'react';
 
@@ -28,6 +28,7 @@ function App() {
             <Route path="/register" element={<Register />}></Route>
             <Route path="/cart" element={<Cart />}></Route>
             <Route path="/checkout" element={<Checkout />}></Route>
+            <Route path="/success/:orderId" element={<Success />}></Route>
           </Route>
         </Routes>
 
