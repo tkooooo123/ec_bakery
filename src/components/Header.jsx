@@ -2,11 +2,12 @@ import { NavLink } from "react-router-dom";
 import { useContext } from "react";
 import { AuthContext } from '../store/AuthContext';
 
-function Header() {
+function Header({cartData}) {
 
     const auth = useContext(AuthContext);
-    const { test, logout } = auth;
-    const { isAuthenticated } = test
+    const { user, logout } = auth;
+    const { isAuthenticated } = user;
+ 
 
     return (
         <>
@@ -40,10 +41,15 @@ function Header() {
                         </span>
                         </a>
                       
-                        <NavLink to="/cart" className="icon-list-item text-black d-flex align-items-center me-3">
+                        <NavLink to="/cart" className="icon-list-item text-black d-flex align-items-center me-3 position-relative">
                         <span className="material-icons fs-2">
                             local_mall
                         </span>
+                        {!!cartData?.length && (
+                <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                  {cartData?.length}
+                </span>
+              )}
                         </NavLink>
                         {!isAuthenticated && (
                             <NavLink className="text-black fw-bold" to="/login">登入/註冊</NavLink>
