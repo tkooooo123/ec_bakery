@@ -1,9 +1,12 @@
 import OrderApi from '../../../apis/order';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { Modal } from "bootstrap";
+import OrderModal from '../../../components/OrderModal';
 
 function Orders() {
     const [orders, setOrders] = useState([]);
     const [selectedOrder, setSelectedOrder] = useState({});
+    const orderModal = useRef(null);
     const getOrders = async () => {
         try {
             const res = await OrderApi.getOrders();
@@ -16,11 +19,17 @@ function Orders() {
 
     const openOrderModal = (order) =>{
         setSelectedOrder(order);
-        console.log(order.id)
-        //orderModal.current.show()
+        orderModal.current.show();
     }
 
+    const closeOrderModal = () => {
+        orderModal.current.hide()
+    } 
+
     useEffect(() => {
+        orderModal.current = new Modal('#orderModal', {
+            backdrop: 'static'
+        })
         getOrders();
     }, [])
 
@@ -62,6 +71,7 @@ function Orders() {
                     })}
                 </tbody>
             </table>
+            <OrderModal selectedOrder={selectedOrder} closeOrderModal={closeOrderModal} getOrders={getOrders}/>
         </>
     )
 }

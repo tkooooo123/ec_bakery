@@ -145,10 +145,11 @@ function Success() {
 
                     {/*提交藍新金流付款*/}
                     <form method="POST" action={tradeInfo.PayGateWay} >
-                        <input type="text" name="MerchantID" value={tradeInfo.MerchantID} hidden />
-                        <input type="text" name="TradeInfo" value={tradeInfo.TradeInfo} hidden />
-                        <input type="text" name="TradeSha" value={tradeInfo.TradeSha} hidden />
-                        <input type="text" name="Version" value={Number(tradeInfo.Version)} hidden />
+
+                        <input type="text" name="MerchantID" value={tradeInfo.MerchantID || ''} onChange={() => { }} hidden />
+                        <input type="text" name="TradeInfo" value={tradeInfo.TradeInfo || ''} onChange={() => { }} hidden />
+                        <input type="text" name="TradeSha" value={tradeInfo.TradeSha || ''} onChange={() => { }} hidden />
+                        <input type="text" name="Version" value={Number(tradeInfo.version) || ''} onChange={() => { }} hidden />
                         <button type="submit" className="btn btn-dark rounded-0 py-md-3 px-md-5 p-3 fs-md-5 fw-bold">前往付款</button>
                     </form>
                 </div>

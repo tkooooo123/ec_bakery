@@ -7,12 +7,14 @@ export const AuthContext = createContext({});
 export const AuthProvider = ({ children }) => {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [userId, setUserId] = useState('');
+    const [userData, setUserData] = useState({});
     const { pathname } = useLocation();
     const authToken = localStorage.getItem('token');
     const user = {
         token: authToken,
         userId,
         isAuthenticated,
+        userData
     }
     const logout = () => {
       localStorage.removeItem('token');
@@ -28,6 +30,7 @@ export const AuthProvider = ({ children }) => {
         if (result) {
           user.token = authToken;
           setIsAuthenticated(true);
+          setUserData(result.data.currentUser)
           setUserId(result.data.currentUser.id);
         } else {
           setIsAuthenticated(false);
