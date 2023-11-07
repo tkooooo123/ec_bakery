@@ -102,6 +102,23 @@ export function postSuccessMessage(dispatch, data) {
     }, 0) 
 }
 
+export function toastErrorMessage(dispatch, data) {
+    dispatch({
+        type: 'POST_MESSAGE',
+        payload: {
+            title: data.message,
+            text: "",
+            type: 'small',
+            icon: 'error'
+        }
+    });
+    setTimeout(() => {
+        dispatch({
+            type: 'CLEAR_MESSAGE'
+        })
+    }, 0) 
+}
+
 export function authErrorMessage(dispatch) {
     dispatch({
         type: 'POST_MESSAGE',

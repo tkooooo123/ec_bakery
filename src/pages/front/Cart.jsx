@@ -1,39 +1,27 @@
 import { useEffect, useState } from 'react';
 import CartApi from '../../apis/cart';
 import { useContext, } from 'react';
-import { MessageContext, handleErrorMessage } from "../../store/messageStore";
+import { MessageContext, handleErrorMessage, postSuccessMessage, toastErrorMessage } from "../../store/messageStore";
 import Stepper from '../../components/Stepper'
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useOutletContext } from 'react-router-dom';
 import { AuthContext } from '../../store/AuthContext';
 
 function Cart() {
     const [total, setTotal] = useState('');
+    const [discount, setDiscount] = useState(0);
     const [cart, setCart] = useState([]);
     const [stepper, setStepper] = useState(1);
     const [, dispatch] = useContext(MessageContext);
     const auth  = useContext(AuthContext);
-    const { token } = auth.user
-  
+    const { token } = auth.user;
+    const { cartData, getCart } = useOutletContext();
+    console.log(cartData, typeof(cartData))
  
     const navigate = useNavigate();
+   
 
 
-    const getCart = async () => {
-        try {
-           
-               
-  
-            const res = await CartApi.getCart()
-            console.log('cart', res.data)
-            
-            setTotal(res.data.totalPrice)
-            setCart(res.data.carts);
-
-        } catch (error) {
-            handleErrorMessage(dispatch, error)
-            console.log(error);
-        }
-    }
+   
 
     const deleteCart = async (id) => {
         try {
@@ -42,6 +30,7 @@ function Cart() {
                 id: Number(id)
             })
             console.log(res);
+            postSuccessMessage(dispatch, res.data)
             await getCart();
         } catch (error) {
             console.log(error)
@@ -55,8 +44,11 @@ function Cart() {
                 id
             })
             await getCart();
-            console.log(res)
+
+            console.log(res.data)
+            postSuccessMessage(dispatch, res.data)
         } catch (error) {
+            toastErrorMessage(dispatch, error)
             console.log(error)
         }
     }
@@ -87,10 +79,11 @@ function Cart() {
                 <Stepper stepper={stepper}></Stepper>
                 <div className="row">
                     <div className="col-8">
+                      
                         <div className="d-flex justify-content-between">
                             <h2 className="fw-bold">購物車清單</h2>
                             <button type="button" className="btn btn-outline-primary"
-                            onClick={() => deleteCart(cart[0].id)}
+                            onClick={() => deleteCart(cartData.carts[0].id)}
                             >全部刪除</button>
                         </div>
                         <div className="cartList overflow-hidden my-3">
@@ -105,7 +98,7 @@ function Cart() {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {cart?.map((item) => {
+                                    {cartData.carts?.map((item) => {
                                         return (
 
                                             <tr key={item.cartProducts.id}>
@@ -163,13 +156,13 @@ function Cart() {
 
                             <hr />
                             <div className="mb-4">
-                                小計： NT$ {total}
+                                小計： NT$ {cartData.totalPrice}
                             </div>
                             <div className="mb-4">
-                                折扣： NT$
+                                折扣： NT$ {discount}
                             </div>
                             <div className="mb-4 fw-bold">
-                                總計： NT$
+                                總計： NT$ {cartData.totalPrice - discount}
                             </div>
                         </div>
                         <div className="d-flex justify-content-between my-5">

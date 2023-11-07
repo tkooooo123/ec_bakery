@@ -45,9 +45,9 @@ function Header({cartData}) {
                         <span className="material-icons fs-2">
                             local_mall
                         </span>
-                        {!!cartData?.length && (
+                        {!!cartData?.carts?.length && (
                 <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                  {cartData?.length}
+                  {cartData?.carts?.length}
                 </span>
               )}
                         </NavLink>
