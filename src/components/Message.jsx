@@ -5,8 +5,21 @@ import Swal from 'sweetalert2';
 
 function Message() {
     const [message] = useContext(MessageContext);
-console.log('message', message.type)
-    if(message.icon) {
+    const Toast = Swal.mixin({
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 1500
+      })
+console.log('message', message)
+    if(message.type === 'small') {
+        Toast.fire({
+            title: message.title,
+            icon: message.icon,
+            text: message.text,  
+          });
+
+    } else if(message.icon) {
         Swal.fire({
             position: 'top',
             title: message.title,

@@ -1,7 +1,9 @@
-import { useEffect, useState } from 'react';
-import { Link, useSearchParams } from 'react-router-dom';
+import { useEffect, useState, useContext } from 'react';
+import { Link, useSearchParams, useOutletContext  } from 'react-router-dom';
 import ProductsApi from '../../apis/products';
-
+import CartApi from '../../apis/cart';
+import { MessageContext, handleErrorMessage, postSuccessMessage, authErrorMessage } from "../../store/messageStore";
+import { AuthContext } from '../../store/AuthContext';
 
 function Products() {
     const [categories, setCategories] = useState([]);
@@ -13,6 +15,11 @@ function Products() {
     const [searchParams] = useSearchParams();
     const queryCategoryId = searchParams.get('categoryId')
     const [categoryId, setCategoryId] = useState("");
+    const { getCart } = useOutletContext();
+    const [, dispatch] = useContext(MessageContext);
+    const auth = useContext(AuthContext);
+    const { isAuthenticated } = auth.user;
+  
 
 
   
@@ -28,15 +35,33 @@ function Products() {
             console.log(res.data)
             setCategories([...res.data.categories]);
             setProducts([...res.data.products]);
-            
         } catch (error) {
             console.log(error)
         }
     }
 
-
-
-    
+    const addToCart = async(id) => {
+        try {
+            if(!isAuthenticated) {
+                console.log('456')
+                authErrorMessage(dispatch);
+                setIsLoading(false);
+                return
+            }
+            console.log('add',typeof(id))
+            const res = await CartApi.postCart({
+                productId: id,
+                quantity: 1,
+            })
+            postSuccessMessage(dispatch,res.data)
+            await getCart(dispatch);
+            
+        console.log(id)
+        } catch (error) {
+            handleErrorMessage(dispatch, error)
+            console.log(error)
+        }
+    }
 
     
 
@@ -98,7 +123,12 @@ function Products() {
                                             <div className="card-body p-3">
                                                 <h5 className="product-card-title fw-bold">{product.name}</h5>
                                                 <p className="fw-bold text-danger">NT${product.price}</p>
-                                                <button href="#" className="btn btn-primary">加入購物車</button>
+                                                <button href="#" className="btn btn-primary"
+                                                onClick={(e) => {
+                                                    e.preventDefault();
+                                                    addToCart(product.id);
+                                                }}
+                                                >加入購物車</button>
                                             </div>
                                         </div>
                                         </Link>
