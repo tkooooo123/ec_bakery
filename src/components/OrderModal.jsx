@@ -1,27 +1,32 @@
-import { MessageContext, handleErrorMessage, handleSuccessMessage } from "../store/messageStore"
-import { useContext, useEffect, useState } from "react"
-import OrderApi from '../apis/order'
+import { MessageContext, handleErrorMessage } from "../store/messageStore";
+import { useContext, useEffect, useState } from "react";
+import OrderApi from '../apis/order';
+import propTypes from 'prop-types'
+
 
 function OrderModal({ selectedOrder, closeOrderModal, isAdmin }) {
     const [, dispatch] = useContext(MessageContext);
     const [tradeInfo, setTradeInfo] = useState({});
-
-
+    const order = selectedOrder
     const getTradeInfo = async () => {
         try {
+            if(isAdmin) {
+                return
+            }
             const res = await OrderApi.getPayment({
-                orderId: selectedOrder.id
+                orderId: order.id
             })
 
             setTradeInfo(res.data.tradeInfo);
         } catch (error) {
+            handleErrorMessage(dispatch, error)
             console.log(error)
         }
     }
-    console.log(tradeInfo)
+ 
 
     useEffect(() => {
-        if (!Number(selectedOrder.payment_status)) {
+        if (!Number(order.payment_status)) {
             getTradeInfo();
         }
     }, [selectedOrder])
@@ -37,12 +42,7 @@ function OrderModal({ selectedOrder, closeOrderModal, isAdmin }) {
                                 訂單明細
                             </h5>
                             <button type="button" className="btn-close" data-bs-dismiss="modal"
-                                onClick={() => {
-                                    setTempData({
-                                        is_paid: selectedOrder.is_paid,
-                                        status: selectedOrder.status || 0,
-                                    });
-                                }}
+                               
                             ></button>
                         </div>
                         <div className='modal-body'>
@@ -174,3 +174,9 @@ function OrderModal({ selectedOrder, closeOrderModal, isAdmin }) {
 }
 
 export default OrderModal;
+
+OrderModal.propTypes = {
+ selectedOrder: propTypes.object.isRequired,
+ closeOrderModal: propTypes.func.isRequired,
+ isAdmin: propTypes.bool
+}

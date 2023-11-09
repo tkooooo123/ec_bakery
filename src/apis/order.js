@@ -45,6 +45,11 @@ export default {
         return apiHelper.get(`/orders/${orderId}/payment`, {
             headers: { Authorization: `Bearer ${getToken()}` }
         })
+    },
+    putOrder({orderId, payment, shipment}) {
+        return apiHelper.put(`/orders/${orderId}`, { payment, shipment }, {
+            headers: { Authorization: `Bearer ${getToken()}` }
+        })
     }
   
 }

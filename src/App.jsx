@@ -11,6 +11,9 @@ import Success from './pages/front/Success';
 import AccountDashboard from './pages/front/account/AccountDashboard';
 import Profile from './pages/front/account/Profile';
 import Orders from './pages/front/account/Orders';
+import AdminDashboard from './pages/admin/AdminDashboard';
+import AdminHome from './pages/admin/AdminHome';
+import AdminOrders from './pages/admin/AdminOrders';
 import { MessageContext, MessageReducer, initState } from './store/messageStore';
 import { useReducer } from 'react';
 
@@ -34,6 +37,10 @@ function App() {
               <Route path="profile" element={<Profile />}></Route>
               <Route path="order" element={<Orders />}></Route>
             </Route>
+          </Route>
+          <Route path="/admin" element={<AdminDashboard />}>
+            <Route path="home" element={<AdminHome />}></Route>
+            <Route path="orders" element={<AdminOrders />}></Route>
           </Route>
         </Routes>
 
