@@ -55,11 +55,16 @@
 }
 
 //Product Detail
-
-.product-detail-img {
+.product-detail-img-wrapper {
     height: 450px;
+    width: 100%;
+}
+.product-detail-img {
+    min-height: 100%;
+    max-width: 100%;
+
     object-fit: cover;
-    aspect-ratio: 1 / 1;
+    
 }
 
 .input-group {
