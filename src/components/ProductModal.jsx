@@ -26,6 +26,15 @@ function ProductModal({ type, closeProductModal, initialProduct, getProducts, ca
     });
 
     const watchForm = useWatch({
+        control,
+        errors
+    })
+    
+
+
+    //上傳主要圖片
+    const uploadImg = () => {
+        const file = fileRef.current.files[0]
         const imageURL = window.URL.createObjectURL(file);
         setProduct({ ...product, image: imageURL })
 
