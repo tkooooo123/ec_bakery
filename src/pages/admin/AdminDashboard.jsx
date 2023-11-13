@@ -65,7 +65,7 @@ function AdminDashboard() {
                         </Link>
                     </li>
                     <li className="navigation-list-item">
-                        <Link className="nav-link d-flex align-items-center py-2">
+                        <Link className="nav-link d-flex align-items-center py-2" to="/admin/products">
                             <span className="material-icons fs-3 mx-3">
                                 view_in_ar
                             </span>

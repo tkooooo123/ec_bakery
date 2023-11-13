@@ -20,7 +20,7 @@ export default {
         })
     },
     putProduct({ id, formData }) {
-        return apiHelper.put(`/admin/products/${id}`, formData, {
+        return apiHelper.put(`/admin/products/${id}`, formData , {
             headers: { Authorization: `Bearer ${getToken()}` }
         })
     },
@@ -80,6 +80,11 @@ export default {
     },
     deleteOrder({ id }) {
         return apiHelper.delete(`/admin/orders/${id}`, {
+            headers: { Authorization: `Bearer ${getToken()}` }
+        })
+    },
+    uploadImgs({ formData }) {
+        return apiHelper.post(`/admin/product/upload`, formData,{
             headers: { Authorization: `Bearer ${getToken()}` }
         })
     }
