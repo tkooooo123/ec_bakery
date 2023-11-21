@@ -1,0 +1,16 @@
+@mixin lg {
+    @include media-breakpoint-up(lg) {
+       @content
+      }
+};
+
+@mixin md {
+    @include media-breakpoint-up(md) {
+       @content
+      }
+};
+@mixin sm {
+    @include media-breakpoint-up(sm) {
+       @content
+      }
+};
