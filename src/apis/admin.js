@@ -40,8 +40,8 @@ export default {
             headers: { Authorization: `Bearer ${getToken()}` }
         })
     },
-    createCategory({ name }) {
-        return apiHelper.post('/admin/categories', { name }, {
+    createCategory({ data }) {
+        return apiHelper.post('/admin/categories', data , {
             headers: { Authorization: `Bearer ${getToken()}` }
         })
     },
@@ -51,8 +51,8 @@ export default {
         })
 
     },
-    updateCategory({ id, name }) {
-        return apiHelper.put(`/admin/categories/${id}`, { name }, {
+    updateCategory({ id, data }) {
+        return apiHelper.put(`/admin/categories/${id}`, data, {
             headers: { Authorization: `Bearer ${getToken()}` }
         })
 
@@ -87,6 +87,12 @@ export default {
         return apiHelper.post(`/admin/product/upload`, formData,{
             headers: { Authorization: `Bearer ${getToken()}` }
         })
-    }
+    },
+    uploadImg({ formData }) {
+        return apiHelper.post(`/admin/upload`, formData,{
+            headers: { Authorization: `Bearer ${getToken()}` }
+        })
+    },
+
 }
 
