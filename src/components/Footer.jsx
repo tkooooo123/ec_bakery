@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 function Footer() {
 
     return (
@@ -15,8 +16,8 @@ function Footer() {
                         <div className="col-md-4 col-6">
                             <h4 className="fw-bold">顧客服務</h4>
                             <ul className="d-flex flex-column ">
-                                <a href="#" className="text-black">常見問題</a>
-                                <a href="#" className="text-black">隱私權政策</a>
+                                <Link to="/frequencely_asked_questions" className="text-black">常見問題</Link>
+                                <Link to="/privacy" className="text-black">隱私權政策</Link>
                             </ul>
                         </div>
                         <div className="col-md-4">
