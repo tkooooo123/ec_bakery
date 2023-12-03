@@ -1,9 +1,10 @@
 import { useState, useRef, useEffect, useContext } from "react";
 import { useForm, useWatch } from "react-hook-form";
 import { CheckboxRadio, Input, Textarea, Select } from "./FormElements";
-import AdminApi from '../apis/admin'
-import propTypes from 'prop-types'
-import { MessageContext, postSuccessMessage } from "../store/messageStore";
+import AdminApi from '../apis/admin';
+import propTypes from 'prop-types';
+import { MessageContext, handleErrorMessage, postSuccessMessage } from "../store/messageStore";
+import Loading from "./Loading";
 
 function ProductModal({ type, closeProductModal, initialProduct, getProducts, categories }) {
 
@@ -12,8 +13,9 @@ function ProductModal({ type, closeProductModal, initialProduct, getProducts, ca
     const fileRef = useRef(null);
     const imagesRef = useRef(null);
     const [, dispatch] = useContext(MessageContext);
-    //const [isDisabled, setIsdisabled] = useState(true);
-    //const [isErrored, setIsErrored] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
+    const [isDisabled, setIsdisabled] = useState(true);
+    const [isErrored, setIsErrored] = useState(false);
     const {
         register,
         handleSubmit,
@@ -25,6 +27,7 @@ function ProductModal({ type, closeProductModal, initialProduct, getProducts, ca
         mode: 'all',
     });
 
+    const errorArr = Object.entries(errors); 
     const watchForm = useWatch({
         control,
         errors
@@ -41,6 +44,7 @@ function ProductModal({ type, closeProductModal, initialProduct, getProducts, ca
     }
     //上傳次要圖片
     const uploadImgs = async () => {
+        setIsLoading(true);
         const files = imagesRef.current.files;
         const imgs = product?.imagesUrl ? [...product.imagesUrl] : []
         const formData = new FormData();
@@ -54,6 +58,7 @@ function ProductModal({ type, closeProductModal, initialProduct, getProducts, ca
         })
         imgs.push(...res.data.imagesUrl)
         setProduct({ ...product, imagesUrl: [...imgs] });
+        setIsLoading(false);
     }
 
     const imageRemove = (i) => {
@@ -67,6 +72,7 @@ function ProductModal({ type, closeProductModal, initialProduct, getProducts, ca
     }
     const onSubmit = async (data) => {
         try {
+            setIsLoading(true);
             const formData = new FormData();
             for (let key in data) {
                 if (key === 'image') {
@@ -90,23 +96,22 @@ function ProductModal({ type, closeProductModal, initialProduct, getProducts, ca
                     formData
                 })
             }
-            console.log(res)
             await getProducts();
             postSuccessMessage(dispatch, res.data)
             closeProductModal();
             handleRemove();
+            setIsLoading(false);
 
         } catch (error) {
-            console.log(error)
+            setIsLoading(false);
+            handleErrorMessage(dispatch, error);
         }
     }
     const handleRemove = () => {
         fileRef.current.value = '';
         imagesRef.current.value = '';
         setState(false);
-        console.log(state)
-        
-        console.log('rp', product)
+       
     }
     //打開Modal，載入產品資訊
 
@@ -148,16 +153,25 @@ function ProductModal({ type, closeProductModal, initialProduct, getProducts, ca
     }, [initialProduct, type, state])
 
     useEffect(() => {
-        console.log(watchForm)
+
+        setIsdisabled(true)
         const arr = Object.values(watchForm).map((item) => {
-            return item?.typeof === String ? item.trim() : item
+            return item.typeof === String ? item.trim() : item
         })
-        console.log(arr)
-    }, [watchForm])
+        if (arr.length > 0 && !arr.includes('')) {
+            setIsdisabled(false)
+        }
+        if (errorArr.length > 0) {
+            setIsErrored(true)
+        } else {
+            setIsErrored(false)
+        }
+    }, [watchForm, errorArr]);
  
 
     return (
         <>
+        <Loading isLoading={isLoading} />
             <div className="modal fade" id="productModal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 
                 <div className="modal-dialog modal-lg">
@@ -170,7 +184,6 @@ function ProductModal({ type, closeProductModal, initialProduct, getProducts, ca
                                 closeProductModal();
                                 handleRemove();
                                 setState(false);
-                                console.log(state)
                             }}></button>
                         </div>
                         <form onSubmit={handleSubmit(onSubmit)}>
@@ -181,7 +194,7 @@ function ProductModal({ type, closeProductModal, initialProduct, getProducts, ca
                                             <div className='form-group mb-2'>
                                                 <div className="text-center bg-light mb-2" style={{ height: '250px', width: '230px' }}>
                                                     {product.image !== '' && (
-                                                        <img src={product.image} alt="商品圖片" style={{ height: '250px', width: '100%', objectFit: 'cover' }} />
+                                                        <img src={product.image} alt={product.name} style={{ height: '250px', width: '100%', objectFit: 'cover' }} />
                                                     )}
                                                 </div>
 
@@ -353,7 +366,7 @@ function ProductModal({ type, closeProductModal, initialProduct, getProducts, ca
                                         handleRemove();
                                         setState(false);
                                     }}>關閉</button>
-                                <button type="submit" className="btn btn-primary">儲存</button>
+                                <button type="submit" className={`form-submit-btn btn btn-primary ${(isDisabled || isErrored) ? 'disable' : ''}`}>儲存</button>
                             </div>
                         </form>
                     </div>

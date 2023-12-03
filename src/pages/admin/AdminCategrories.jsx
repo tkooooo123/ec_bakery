@@ -101,7 +101,7 @@ function AdminCategories() {
                                 <tr key={category.id}>
                                     <td className="align-middle">{i + 1}</td>
                                     <td>
-                                        <img src={category.image} alt={category.name} style={{ width: '100px', height: '100px' }} />
+                                        <img src={category.image} alt={category.name} style={{ width: '100px', height: '100px', objectFit: 'cover' }} />
                                     </td>
                                     <td className="align-middle">{category.name}</td>
                                     <td className="align-middle">

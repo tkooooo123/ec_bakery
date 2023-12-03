@@ -14,6 +14,9 @@ import Orders from './pages/front/account/Orders';
 import AdminDashboard from './pages/admin/AdminDashboard';
 import AdminHome from './pages/admin/AdminHome';
 import AdminOrders from './pages/admin/AdminOrders';
+import AdminProducts from './pages/admin/AdminProducts';
+import AdminCategories from './pages/admin/AdminCategrories';
+
 import { MessageContext, MessageReducer, initState } from './store/messageStore';
 import { useReducer } from 'react';
 
@@ -41,6 +44,9 @@ function App() {
           <Route path="/admin" element={<AdminDashboard />}>
             <Route path="home" element={<AdminHome />}></Route>
             <Route path="orders" element={<AdminOrders />}></Route>
+            <Route path="products" element={<AdminProducts />}></Route>
+            <Route path="categories" element={<AdminCategories />}></Route>
+
           </Route>
         </Routes>
 
