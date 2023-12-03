@@ -11,6 +11,7 @@ import Success from './pages/front/Success';
 import AccountDashboard from './pages/front/account/AccountDashboard';
 import Profile from './pages/front/account/Profile';
 import Orders from './pages/front/account/Orders';
+import Privacy from './pages/front/Privacy';
 import AdminDashboard from './pages/admin/AdminDashboard';
 import AdminHome from './pages/admin/AdminHome';
 import AdminOrders from './pages/admin/AdminOrders';
@@ -40,6 +41,7 @@ function App() {
               <Route path="profile" element={<Profile />}></Route>
               <Route path="order" element={<Orders />}></Route>
             </Route>
+            <Route path="/privacy" element={<Privacy />}></Route>
           </Route>
           <Route path="/admin" element={<AdminDashboard />}>
             <Route path="home" element={<AdminHome />}></Route>
