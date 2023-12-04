@@ -1,4 +1,4 @@
-import { Link, Outlet } from "react-router-dom";
+import { Link, Outlet, useNavigate } from "react-router-dom";
 import $ from "jquery";
 import { useEffect, useContext } from "react";
 import { AuthContext } from '../../store/AuthContext';
@@ -8,6 +8,7 @@ function AdminDashboard() {
 
     const auth = useContext(AuthContext);
     const { logout } = auth;
+    const navigate= useNavigate();
 
 
     const activeLink = () => {
@@ -32,7 +33,7 @@ function AdminDashboard() {
 
     useEffect(() => {
         activeLink();
-
+        navigate('/admin/home');
     }, [])
     return (
 
@@ -57,7 +58,7 @@ function AdminDashboard() {
                         </Link>
                     </li>
                     <li className="navigation-list-item">
-                        <Link className="nav-link d-flex align-items-center py-2">
+                        <Link className="nav-link d-flex align-items-center py-2" to="/admin/categories">
                             <span className="material-icons fs-3 mx-3">
                                 category
                             </span>
@@ -70,6 +71,14 @@ function AdminDashboard() {
                                 view_in_ar
                             </span>
                             <span className="">Product</span>
+                        </Link>
+                    </li>
+                    <li className="navigation-list-item">
+                        <Link className="nav-link d-flex align-items-center py-2" to="/admin/articles">
+                            <span className="material-icons fs-3 mx-3">
+                                view_in_ar
+                            </span>
+                            <span className="">Articles</span>
                         </Link>
                     </li>
                     <li className="navigation-list-item">

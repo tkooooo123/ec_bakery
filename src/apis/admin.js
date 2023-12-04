@@ -1,5 +1,6 @@
 import axios from "axios";
 
+
 const baseURL = "http://localhost:3000/api";
 const apiHelper = axios.create({
     baseURL
@@ -93,6 +94,26 @@ export default {
             headers: { Authorization: `Bearer ${getToken()}` }
         })
     },
+    postAritcle({ formData }) {
+        return apiHelper.post(`/admin/article`, formData,{
+            headers: { Authorization: `Bearer ${getToken()}` }
+        })
+    },
+    getArticles() {
+        return apiHelper.get(`/admin/articles`, {
+            headers: { Authorization: `Bearer ${getToken()}` }
+        })
+    },
+    deleteArticle({ id }) {
+        return apiHelper.delete(`/admin/articles/${id}`, {
+            headers: { Authorization: `Bearer ${getToken()}` }
+        })
+    },
+    putArticle({ id, formData }) {
+        return apiHelper.put(`/admin/articles/${id}`, formData, {
+            headers: { Authorization: `Bearer ${getToken()}` }
+        })
+    }
 
 }
 

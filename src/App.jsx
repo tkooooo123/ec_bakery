@@ -18,6 +18,7 @@ import AdminHome from './pages/admin/AdminHome';
 import AdminOrders from './pages/admin/AdminOrders';
 import AdminProducts from './pages/admin/AdminProducts';
 import AdminCategories from './pages/admin/AdminCategrories';
+import AdminArticles from './pages/admin/AdminArticles';
 
 import { MessageContext, MessageReducer, initState } from './store/messageStore';
 import { useReducer } from 'react';
@@ -50,6 +51,7 @@ function App() {
             <Route path="orders" element={<AdminOrders />}></Route>
             <Route path="products" element={<AdminProducts />}></Route>
             <Route path="categories" element={<AdminCategories />}></Route>
+            <Route path="articles" element={<AdminArticles />}></Route>
 
           </Route>
         </Routes>
