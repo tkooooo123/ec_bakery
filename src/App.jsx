@@ -15,6 +15,7 @@ import Privacy from './pages/front/Privacy';
 import FrequencelyAskedQuestions from './pages/front/FrequencelyAskedQuestions';
 import Articles from './pages/front/Articles';
 import ArticleDetail from './pages/front/ArticleDetail';
+import ContactUs from './pages/front/ContactUs';
 import AdminDashboard from './pages/admin/AdminDashboard';
 import AdminHome from './pages/admin/AdminHome';
 import AdminOrders from './pages/admin/AdminOrders';
@@ -49,6 +50,7 @@ function App() {
             <Route path="/frequencely_asked_questions" element={<FrequencelyAskedQuestions />}></Route>
             <Route path="/articles" element={<Articles />}></Route>
             <Route path="/article/:id" element={<ArticleDetail />}></Route>
+            <Route path="contactus" element={<ContactUs />}></Route>
           </Route>
           <Route path="/admin" element={<AdminDashboard />}>
             <Route path="home" element={<AdminHome />}></Route>
@@ -56,7 +58,6 @@ function App() {
             <Route path="products" element={<AdminProducts />}></Route>
             <Route path="categories" element={<AdminCategories />}></Route>
             <Route path="articles" element={<AdminArticles />}></Route>
-
           </Route>
         </Routes>
 

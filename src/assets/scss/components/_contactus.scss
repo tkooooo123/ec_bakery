@@ -1,0 +1,24 @@
+.contact-us {
+    img {
+        width: 100%;
+        object-fit:contain;
+        @include md {
+            height: 300px;
+            object-fit: cover;
+        }
+    }
+}
+.contact-us::before {
+    content: '';
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    background-color: #3a3a3a;
+    opacity: 0.2;
+}
+.contact-us-title {
+    font-size: 24px;
+    @include md {
+        font-size: 40px;
+    }
+}

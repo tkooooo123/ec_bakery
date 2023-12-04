@@ -3,8 +3,9 @@ import propTypes from 'prop-types'
 export const Input = ({ id, labelText, register, type, errors, rules, placeholder, value, }) => {
   return (
    <>
-     <label htmlFor={id} className='form-label'>
+     <label htmlFor={id} className='form-label fw-bold'>
        {labelText}
+       <span className='text-danger'>*</span>
      </label>
      <input
        id={id}
@@ -59,8 +60,9 @@ export const CheckboxRadio = ({
 export const Textarea = ({ id, labelText, register, type, errors, rules, rows }) => {
   return (
     <>
-      <label htmlFor={id} className='form-label'>
+      <label htmlFor={id} className='form-label fw-bold'>
         {labelText}
+        <span className='text-danger'>*</span>
       </label>
       <textarea
         id={id}
