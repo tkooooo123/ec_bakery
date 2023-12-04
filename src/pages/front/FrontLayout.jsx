@@ -1,16 +1,15 @@
 import { Outlet } from 'react-router-dom';
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
-import { useEffect, useReducer, useState, useContext } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import CartApi from '../../apis/cart';
 import Message from "../../components/Message";
-import { MessageContext, MessageReducer, handleErrorMessage, handleSuccessMessage, initState } from "../../store/messageStore";
+import { MessageContext, handleErrorMessage  } from "../../store/messageStore";
 import { AuthContext } from '../../store/AuthContext';
 
 
 
 function FrontLayout() {
-    const reducer = useReducer(MessageReducer, initState);
     const [cartData, setCartData] = useState({});
     const auth = useContext(AuthContext);
     const { isAuthenticated } = auth.user;

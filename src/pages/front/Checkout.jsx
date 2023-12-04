@@ -4,43 +4,55 @@ import { Link } from 'react-router-dom';
 import { MessageContext, handleErrorMessage } from '../../store/messageStore';
 import CartApi from '../../apis/cart';
 import OrderApi from '../../apis/order';
-import { useForm } from 'react-hook-form';
+import { useForm, useWatch } from 'react-hook-form';
 import { Input } from '../../components/FormElements';
 import { AuthContext } from '../../store/AuthContext';
 import { useNavigate } from 'react-router-dom';
+import Loading from '../../components/Loading';
 function Checkout() {
-    const [stepper, setStepper] = useState(2);
+    const [stepper] = useState(2);
     const [cart, setCart] = useState([]);
     const [total, setTotal] = useState('');
     const [, dispatch] = useContext(MessageContext);
     const auth = useContext(AuthContext);
     const { userId } = auth.user
     const navigate = useNavigate();
+    const [isLoading, setIsLoading] = useState(false);
+    const [isDisabled, setIsdisabled] = useState(true);
+    const [isErrored, setIsErrored] = useState(false);
+
     const {
         register,
+        control,
         handleSubmit,
         formState: { errors }
     } = useForm({
         mode: 'onTouched'
     });
 
+    const errorArr = Object.entries(errors);
+    const watchForm = useWatch({
+        control,
+        errors
+    });
+    
+
     const getCart = async () => {
         try {
-            const res = await CartApi.getCart()
-            console.log('cart', res.data)
-            setTotal(res.data.totalPrice)
+            setIsLoading(true);
+            const res = await CartApi.getCart();
+            setTotal(res.data.totalPrice);
             setCart(res.data.carts);
-
-
+            setIsLoading(false);
         } catch (error) {
-            handleErrorMessage(dispatch, error)
-            console.log(error);
+            setIsLoading(false);
+            handleErrorMessage(dispatch, error);
         }
     }
 
     const onSubmit = async (data) => {
         try {
-            console.log(data, total)
+            setIsLoading(true);
             const { name, phone, email, address } = data
             const formData = {
                 name,
@@ -52,26 +64,41 @@ function Checkout() {
                 payment_status: 0,
                 userId
             }
-            console.log(formData)
             const res = await OrderApi.postOrder(formData);
-            console.log(res.data.order)
             navigate(`/success/${res.data.order.id}`);
-    
-
+            setIsLoading(false);
         } catch (error) {
+            setIsLoading(false);
             handleErrorMessage(dispatch, error);
-            console.log(error)
         }
-    }
+    };
+
     useEffect(() => {
         getCart();
-    }, [])
+    }, []);
+
+    useEffect(() => {
+        const arr = Object.values(watchForm).map((item) => {
+            return item?.typeof === String ? item.trim() : item
+        })
+        if (arr.length > 0 && !arr.includes('')) {
+            setIsdisabled(false)
+        }
+        if (errorArr.length > 0) {
+            setIsErrored(true);
+        } else {
+            setIsErrored(false);
+        }
+    }, [watchForm, errorArr]);
+
     return (
         <>
+        <Loading isLoading={isLoading}/>
             <div className="container">
+            <p className="text-end mt-3"><Link className="text-black" to="/">首頁</Link> / 填寫資料</p>
                 <Stepper stepper={stepper}></Stepper>
                 <div className="row">
-                    <div className="col-8">
+                    <div className="col-md-8">
                         <div className="d-flex justify-content-between">
                             <h2 className="fw-bold">購物車清單</h2>
                         </div>
@@ -79,6 +106,7 @@ function Checkout() {
                             <table className="table m-0">
                                 <thead >
                                     <tr>
+                                    <th scope="col" className="py-3">圖片</th>
                                         <th scope="col" className="py-3">名稱</th>
                                         <th scope="col" className="py-3">數量</th>
                                         <th scope="col" className="py-3">金額</th>
@@ -93,14 +121,16 @@ function Checkout() {
                                             <tr key={item.cartProducts.id}>
                                                 <td className="py-2" >
                                                     <img src={item.cartProducts.image} alt="商品圖片" style={{ width: '100px', height: '100px', objectFit: 'cover' }} />
-                                                    <div className="d-inline-block  align-middle ms-md-3">
+                                                </td>
+                                                <td>
+                                                <div className="d-inline-block  align-middle ">
                                                         <h5 className="fw-bold" >{item.cartProducts.name}</h5>
                                                         <p className="fs-8 text-muted">{item.cartProducts.Category.name}</p>
                                                         <span>NT${item.cartProducts.price}</span>
                                                     </div>
                                                 </td>
                                                 <td className="align-middle">
-                                                    <div className="item-quantity mt-3 ">
+                                                    <div className="item-quantity">
                                                         {item.cartProducts.CartItem.quantity}
                                                     </div></td>
                                                 <td className="align-middle">
@@ -119,9 +149,9 @@ function Checkout() {
                             </table>
                         </div>
                     </div>
-                    <div className="col-4">
-                        <h3>購買資訊</h3>
-                        <form action="" onSubmit={handleSubmit(onSubmit)}>
+                    <div className="col-md-4">
+                        <h3 className="fw-bold">購買資訊</h3>
+                        <form className=" border border-2 border-primary rounded-3 p-3 mb-5" action="" onSubmit={handleSubmit(onSubmit)}>
                             <div className='mb-2'>
                                 <Input
                                     id='name'
@@ -186,11 +216,11 @@ function Checkout() {
                                 </Input>
                             </div>
                             <div className="d-flex justify-content-between my-5">
-                                <Link to="/cart" className="btn btn-outline-dark ">
+                                <Link to="/cart" className="btn btn-outline-dark fw-bold">
                                     返回購物車
                                 </Link>
 
-                                <button type="submit" className="btn btn-primary w-50 ">送出訂單</button>
+                                <button type="submit" className={` btn btn-primary fw-bold form-submit-btn ${(isDisabled || isErrored) ? 'disable' : ''}`}>送出訂單</button>
                             </div>
 
 

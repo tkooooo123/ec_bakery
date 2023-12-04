@@ -3,24 +3,25 @@ import Stepper from '../../components/Stepper';
 import { useParams, Link } from 'react-router-dom';
 import OrderApi from '../../apis/order';
 import { MessageContext, handleErrorMessage } from '../../store/messageStore';
+import Loading from '../../components/Loading';
 
 function Success() {
     const { orderId } = useParams();
     const [orderData, setOrderData] = useState({});
     const [tradeInfo, setTradeInfo] = useState({});
     const [, dispatch] = useContext(MessageContext);
+    const [isLoading, setIsLoading] = useState(false);
     const getOrder = async () => {
         try {
-
+            setIsLoading(true);
             const res = await OrderApi.getOrder({ orderId });
             const paymentRes = await OrderApi.getPayment({ orderId });
-            console.log(res.data.order, res.data.order.amount)
             setOrderData(res.data.order);
-            console.log(paymentRes.data.tradeInfo)
-            setTradeInfo(paymentRes.data.tradeInfo)
+            setTradeInfo(paymentRes.data.tradeInfo);
+            setIsLoading(false);
         } catch (error) {
+            setIsLoading(false);
             handleErrorMessage(dispatch, error);
-            console.log(error)
         }
     }
 
@@ -30,7 +31,9 @@ function Success() {
     }, [])
     return (
         <>
+        <Loading isLoading={isLoading}/>
             <div className="container">
+            <p className="text-end mt-3"><Link className="text-black" to="/">首頁</Link> / 完成訂單</p>
                 <Stepper stepper={3}></Stepper>
                 <div className='d-flex justify-content-center align-items-center mt-3'>
                     <p className='fs-0 mx-2 my-auto'>
@@ -141,7 +144,7 @@ function Success() {
                     </div>
                 </div>
                 <div className={`d-flex justify-content-between my-5 ${Number(orderData.payment_status) ? 'd-none' : ''}`}>
-                    <Link to="/" className="btn btn-outline-primary rounded-0 py-md-3 px-md-5 p-3 fs-md-5 fw-bold"><i className="bi bi-arrow-left"></i> 繼續購物 </Link>
+                    <Link to="/" className="btn btn-outline-dark py-md-3 px-md-5 p-3 fs-md-5 fw-bold"><i className="bi bi-arrow-left"></i> 繼續購物 </Link>
 
                     {/*提交藍新金流付款*/}
                     <form method="POST" action={tradeInfo.PayGateWay} >
@@ -150,12 +153,12 @@ function Success() {
                         <input type="text" name="TradeInfo" value={tradeInfo.TradeInfo || ''} onChange={() => { }} hidden />
                         <input type="text" name="TradeSha" value={tradeInfo.TradeSha || ''} onChange={() => { }} hidden />
                         <input type="text" name="Version" value={Number(tradeInfo.version) || ''} onChange={() => { }} hidden />
-                        <button type="submit" className="btn btn-dark rounded-0 py-md-3 px-md-5 p-3 fs-md-5 fw-bold">前往付款</button>
+                        <button type="submit" className="btn btn-primary py-md-3 px-md-5 p-3 fs-md-5 fw-bold">前往付款</button>
                     </form>
                 </div>
                 <div className={`d-flex justify-content-between my-5 ${Number(orderData.payment_status) ? '' : 'd-none'}`}>
-                    <Link to="/" className="btn btn-outline-primary rounded-0 py-md-3 px-md-5 p-3 fs-md-5 fw-bold"><i className="bi bi-arrow-left"></i> 返回首頁</Link>
-                    <Link to="/products" className="btn btn-dark rounded-0 py-md-3 px-md-5 p-3 fs-md-5 fw-bold">繼續購物 <i className="bi bi-arrow-right"></i></Link>
+                    <Link to="/" className="btn btn-outline-dark py-md-3 px-md-5 p-3 fs-md-5 fw-bold"><i className="bi bi-arrow-left"></i> 返回首頁</Link>
+                    <Link to="/products" className="btn btn-primary py-md-3 px-md-5 p-3 fs-md-5 fw-bold">繼續購物 <i className="bi bi-arrow-right"></i></Link>
                 </div>
 
             </div>

@@ -11,7 +11,7 @@ function Message() {
         showConfirmButton: false,
         timer: 1500
       })
-console.log('message', message)
+
     if(message.type === 'small') {
         Toast.fire({
             title: message.title,
