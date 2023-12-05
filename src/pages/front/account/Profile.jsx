@@ -1,45 +1,64 @@
+import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../../store/AuthContext';
-import { useContext } from 'react';
+import { useContext, useEffect, useRef } from 'react';
+import { Modal } from "bootstrap";
+import EditUserModal from '../../../components/EditUserModal';
 
 
 function Profile() {
-    const { userData } = useContext(AuthContext).user;
-    console.log(userData)
+    const { userData, token } = useContext(AuthContext).user;
+    const navigate = useNavigate();
+    const userModal = useRef(null);
+
+    const openUserModal = () => {
+        userModal.current.show();
+    }
+
+    const closeUserModal = () => {
+        userModal.current.hide();
+    }
+
+    useEffect(() => {
+        userModal.current = new Modal('#userModal', {
+            backdrop: 'static'
+        });
+        if(!token) {
+            navigate('/login')
+        }
+    }, [userData])
+
     return (
         <>
+        <EditUserModal closeUserModal={closeUserModal}/>
             <h1 className="mt-3">Profile</h1>
-            <div className="row">
-                <hr className="mx-3" />
-                <div className="col-6">
+            <div className="row mb-5">
+                <hr className="mx-3 mb-3" />
+                <div className="col-md-6 text-center">
+                    <img  src={userData.avatar} alt="個人頭像" style={{height: '250px', borderRadius: '50%'}}/>
+                </div>
+                <div className="col-md-6">
                     <ul>
                         <li className="d-flex justify-content-between p-2">
                             <div>
-                                <h5>Name</h5>
+                                <h5 className="fw-bold">姓名</h5>
                                 <span>{userData.name}</span>
                             </div>
-                            <button className="btn btn-outline-primary rounded-0">編輯</button>
                         </li>
                        
                         <li className="d-flex justify-content-between p-2">
                             <div>
-                                <h5>Email</h5>
+                                <h5 className="fw-bold">Email</h5>
                                 <span>{userData.email}</span>
                             </div>
-                            <button className="btn btn-outline-primary rounded-0">編輯</button>
                         </li>
-                        <li className="d-flex justify-content-between p-2">
-                            <div>
-                                <h5>Password</h5>
-                                <span>{userData.email}</span>
-                            </div>
-                            <button className="btn btn-outline-primary rounded-0">變更密碼</button>
-                        </li>
+                      
                     </ul>
+                    <button className="btn btn-primary"
+                            onClick={openUserModal}
+                            >編輯</button>
 
                 </div>
-                <div className="col-6">
-                    Image
-                </div>
+              
             </div>
         </>
     )

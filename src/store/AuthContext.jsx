@@ -1,6 +1,7 @@
 import { createContext, useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import AuthorizationApi from '../apis/authorization'
+import AuthorizationApi from '../apis/authorization';
+
 
 export const AuthContext = createContext({});
 
@@ -14,7 +15,8 @@ export const AuthProvider = ({ children }) => {
         token: authToken,
         userId,
         isAuthenticated,
-        userData
+        userData,
+        
     }
     const logout = () => {
       localStorage.removeItem('token');
@@ -44,7 +46,8 @@ export const AuthProvider = ({ children }) => {
     return (
         <AuthContext.Provider value={{
           user,
-          logout
+          logout,
+          checkTokenIsValid
           }}>
             {children}
         </AuthContext.Provider>

@@ -1,12 +1,16 @@
 import OrderApi from '../../../apis/order';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, useContext } from 'react';
 import { Modal } from "bootstrap";
 import OrderModal from '../../../components/OrderModal';
+import { AuthContext } from '../../../store/AuthContext';
+import { useNavigate } from 'react-router-dom';
 
 function Orders() {
     const [orders, setOrders] = useState([]);
     const [selectedOrder, setSelectedOrder] = useState({});
     const orderModal = useRef(null);
+    const { token } = useContext(AuthContext).user;
+    const navigate = useNavigate();
     const getOrders = async () => {
         try {
             const res = await OrderApi.getOrders();
@@ -27,6 +31,9 @@ function Orders() {
     } 
 
     useEffect(() => {
+        if(!token) {
+            navigate('/login')
+        }
         orderModal.current = new Modal('#orderModal', {
             backdrop: 'static'
         })

@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const baseURL = "https://lit-lowlands-54861.herokuapp.com/api";
+const baseURL = "http://localhost:3000/api";
 const apiHelper = axios.create({
     baseURL
 });
@@ -29,6 +29,11 @@ export default {
     postFbSignIn({ name, email }) {
         return apiHelper.post('/facebook', {
             name, email 
+        })
+    },
+    editProfile({ id, formData }) {
+        return apiHelper.put(`/users/${id}`, formData, {
+            headers: { Authorization: `Bearer ${getToken()}` }
         })
     }
 }
