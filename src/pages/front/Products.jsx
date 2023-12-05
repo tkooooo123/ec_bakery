@@ -25,12 +25,8 @@ function Products() {
     const { isAuthenticated } = auth.user;
     const navigate = useNavigate();
     const location = useLocation();
-    const searchCategoryId = searchParams.get('categoryId')
-    const searchPage = searchParams.get('page')
-
-
-
-
+    const searchCategoryId = searchParams.get('categoryId');
+    const searchPage = searchParams.get('page');
 
 
     const fetchProducts = async (page, categoryId) => {
@@ -38,18 +34,19 @@ function Products() {
             const res = await ProductsApi.getProducts({
                 page: page,
                 categoryId: categoryId || ""
-            })
+            });
             setCategories([...res.data.categories]);
             setProducts([...res.data.products]);
             setPagination(res.data.pagination);
 
             if (categoryId) {
-                navigate(`/products?categoryId=${categoryId}&page=${page}`)
+                navigate(`/products?categoryId=${categoryId}&page=${page}`);
             } else if (page > 1) {
-                navigate(`/products?page=${page}`)
+                navigate(`/products?page=${page}`);
             }
             setIsLoading(false);
         } catch (error) {
+            setIsLoading(false);
             handleErrorMessage(dispatch, error);
         }
     }
@@ -68,6 +65,7 @@ function Products() {
             await getCart(dispatch);
 
         } catch (error) {
+            setIsLoading(false);
             handleErrorMessage(dispatch, error);
         }
     }
@@ -84,18 +82,24 @@ function Products() {
     useEffect(() => {
         const category = categories.filter((item) => item.id === Number(categoryId))[0]
         if (categories.length && category) {
-            setCurrentCategory(category.name)
+            setCurrentCategory(category.name);
         }
-    }, [categories, categoryId])
+    }, [categories, categoryId]);
 
     return (
         <>
             <div className="container">
                 <Loading isLoading={isLoading} />
                 <div className="row mt-3">
-                    <div className="col-sm-3">
+                <div className="d-flex justify-content-between align-items-center">
                         <h1 className="fw-bold">本店商品</h1>
-                        <ul className="d-flex flex-column categories-list">
+                        <p className="text-end"><Link className="text-black" to="/">首頁</Link> / 本店商品 / {currentCategory === "" ? "全部商品" : currentCategory}</p>
+
+                        </div>
+                    <div className="col-sm-3">
+                       
+                       
+                        <ul className="d-flex flex-sm-column categories-list">
                             <li className={`categories-list-item fw-bold mt-3 ${currentCategory === "" ? "active" : ""}`} onClick={() => {
                                 setCurrentCategory("");
                                 setCategoryId(null);
@@ -118,7 +122,6 @@ function Products() {
                         </ul>
                     </div>
                     <div className="col-sm-9">
-                        <p className="text-end">首頁 / 本店商品 / {currentCategory === "" ? "全部商品" : currentCategory}</p>
                         <div className="row">
                             {products.map((product) => {
                                 return (

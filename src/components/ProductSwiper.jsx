@@ -7,7 +7,7 @@ import 'swiper/css/navigation';
 import 'swiper/css/scrollbar';
 import propTypes from 'prop-types'
 
-function ProductSwiper({ products }) {
+function ProductSwiper({ products, addToCart }) {
 
     return (
         <Swiper
@@ -47,7 +47,9 @@ function ProductSwiper({ products }) {
                                         <div className="card-body p-3">
                                             <h5 className="product-card-title fw-bold">{product.name}</h5>
                                             <p className="fw-bold text-danger">NT${product.price}</p>
-                                            <button href="#" className="btn btn-primary">加入購物車</button>
+                                            <button href="#" className="btn btn-primary"
+                                            onClick={() => addToCart(product.id)}
+                                            >加入購物車</button>
                                         </div>
                                     </div>
                                 </Link>
@@ -68,5 +70,6 @@ export default ProductSwiper;
 
 ProductSwiper.propTypes = {
     products: propTypes.array,
+    addToCart: propTypes.func,
 }
 
