@@ -3,17 +3,20 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "homepage": "https://tkooooo123.github.io/ec_bakery",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "deploy": "gh-pages -d src"
   },
   "dependencies": {
     "axios": "^1.5.1",
     "bootstrap": "^5.3.2",
     "bootstrap-icons": "^1.11.1",
     "fslightbox-react": "^1.7.6",
+    "gh-pages": "^6.1.0",
     "jquery": "^3.7.1",
     "prop-types": "^15.8.1",
     "react": "^18.2.0",
