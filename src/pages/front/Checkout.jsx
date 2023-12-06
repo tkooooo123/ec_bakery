@@ -1,11 +1,11 @@
 import Stepper from '../../components/Stepper'
 import { useEffect, useState, useContext } from 'react';
-import { Link } from 'react-router-dom';
-import { MessageContext, handleErrorMessage } from '../../store/messageStore';
+import { Link, useOutletContext } from 'react-router-dom';
+import { MessageContext, handleErrorMessage, toastErrorMessage } from '../../store/messageStore';
 import CartApi from '../../apis/cart';
 import OrderApi from '../../apis/order';
 import { useForm, useWatch } from 'react-hook-form';
-import { Input } from '../../components/FormElements';
+import { Input, Textarea } from '../../components/FormElements';
 import { AuthContext } from '../../store/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import Loading from '../../components/Loading';
@@ -15,11 +15,12 @@ function Checkout() {
     const [total, setTotal] = useState('');
     const [, dispatch] = useContext(MessageContext);
     const auth = useContext(AuthContext);
-    const { userId } = auth.user
+    const { userId, token } = auth.user
     const navigate = useNavigate();
     const [isLoading, setIsLoading] = useState(false);
     const [isDisabled, setIsdisabled] = useState(true);
     const [isErrored, setIsErrored] = useState(false);
+    const { getCart } = useOutletContext();
 
     const {
         register,
@@ -35,9 +36,9 @@ function Checkout() {
         control,
         errors
     });
-    
 
-    const getCart = async () => {
+
+    const fetchCart = async () => {
         try {
             setIsLoading(true);
             const res = await CartApi.getCart();
@@ -53,18 +54,20 @@ function Checkout() {
     const onSubmit = async (data) => {
         try {
             setIsLoading(true);
-            const { name, phone, email, address } = data
+            const { name, phone, email, address, message } = data
             const formData = {
                 name,
                 phone,
                 email,
                 address,
+                message,
                 amount: total,
                 shipping_status: 0,
                 payment_status: 0,
                 userId
-            }
+            };
             const res = await OrderApi.postOrder(formData);
+            await getCart();
             navigate(`/success/${res.data.order.id}`);
             setIsLoading(false);
         } catch (error) {
@@ -73,8 +76,14 @@ function Checkout() {
         }
     };
 
+
     useEffect(() => {
-        getCart();
+        if(!token) {
+            navigate('/login');
+            toastErrorMessage(dispatch, { message: '無法取得權限，請先登入！'})
+        } else {
+            fetchCart();
+        }
     }, []);
 
     useEffect(() => {
@@ -93,9 +102,9 @@ function Checkout() {
 
     return (
         <>
-        <Loading isLoading={isLoading}/>
+            <Loading isLoading={isLoading} />
             <div className="container">
-            <p className="text-end mt-3"><Link className="text-black" to="/">首頁</Link> / 填寫資料</p>
+                <p className="text-end mt-3"><Link className="text-black" to="/">首頁</Link> / 填寫資料</p>
                 <Stepper stepper={stepper}></Stepper>
                 <div className="row">
                     <div className="col-md-8">
@@ -106,12 +115,10 @@ function Checkout() {
                             <table className="table m-0">
                                 <thead >
                                     <tr>
-                                    <th scope="col" className="py-3">圖片</th>
+                                        <th scope="col" className="py-3">圖片</th>
                                         <th scope="col" className="py-3">名稱</th>
                                         <th scope="col" className="py-3">數量</th>
                                         <th scope="col" className="py-3">金額</th>
-
-
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -123,7 +130,7 @@ function Checkout() {
                                                     <img src={item.cartProducts.image} alt="商品圖片" style={{ width: '100px', height: '100px', objectFit: 'cover' }} />
                                                 </td>
                                                 <td>
-                                                <div className="d-inline-block  align-middle ">
+                                                    <div className="d-inline-block  align-middle ">
                                                         <h5 className="fw-bold" >{item.cartProducts.name}</h5>
                                                         <p className="fs-8 text-muted">{item.cartProducts.Category.name}</p>
                                                         <span>NT${item.cartProducts.price}</span>
@@ -177,6 +184,10 @@ function Checkout() {
                                     placeholder={'請輸入您的電話號碼'}
                                     rules={{
                                         required: '電話為必填',
+                                        minLength: {
+                                            value: 7,
+                                            message: '電話號碼長度不少於7碼'
+                                        },
 
                                     }}
                                 >
@@ -214,6 +225,21 @@ function Checkout() {
                                     }}
                                 >
                                 </Input>
+                            </div>
+                            <div className="mb-2">
+                                <Textarea
+                                    id='message'
+                                    type='message'
+                                    errors={errors}
+                                    labelText='留言'
+                                    register={register}
+                                    placeholder={'請輸入留言'}
+                                    rules={{
+                                        required: '留言為必填',
+
+                                    }}
+                                >
+                                </Textarea>
                             </div>
                             <div className="d-flex justify-content-between my-5">
                                 <Link to="/cart" className="btn btn-outline-dark fw-bold">

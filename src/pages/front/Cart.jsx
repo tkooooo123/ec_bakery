@@ -88,7 +88,8 @@ function Cart() {
     }
     useEffect(() => {
         if (!token) {
-            navigate('/login')
+            navigate('/login');
+            toastErrorMessage(dispatch, { message: '無法取得權限，請先登入！'});
         } else {
             (async function refreshView() {
                 await getCart();

@@ -13,26 +13,8 @@ export default {
             headers: { Authorization: `Bearer ${getToken()}` }
         })
     },
-    postOrder({
-        userId,
-        name,
-        email,
-        phone,
-        address,
-        amount,
-        shipping_status,
-        payment_status
-    }) {
-        return apiHelper.post('/orders', {
-            userId,
-            name,
-            email,
-            phone,
-            address,
-            amount,
-            shipping_status,
-            payment_status
-        }, {
+    postOrder(formData) {
+        return apiHelper.post('/orders', formData, {
             headers: { Authorization: `Bearer ${getToken()}` }
         })
     },

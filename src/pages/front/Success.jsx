@@ -1,9 +1,10 @@
 import { useContext, useEffect, useState } from 'react';
 import Stepper from '../../components/Stepper';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useNavigate } from 'react-router-dom';
 import OrderApi from '../../apis/order';
-import { MessageContext, handleErrorMessage } from '../../store/messageStore';
+import { MessageContext, handleErrorMessage, toastErrorMessage } from '../../store/messageStore';
 import Loading from '../../components/Loading';
+import { AuthContext } from '../../store/AuthContext';
 
 function Success() {
     const { orderId } = useParams();
@@ -11,6 +12,9 @@ function Success() {
     const [tradeInfo, setTradeInfo] = useState({});
     const [, dispatch] = useContext(MessageContext);
     const [isLoading, setIsLoading] = useState(false);
+    const auth = useContext(AuthContext);
+    const { token } = auth.user;
+    const navigate = useNavigate();
     const getOrder = async () => {
         try {
             setIsLoading(true);
@@ -27,13 +31,18 @@ function Success() {
 
 
     useEffect(() => {
-        getOrder();
+        if (!token) {
+            navigate('/login');
+            toastErrorMessage(dispatch, { message: '無法取得權限，請先登入！' })
+        } else {
+            getOrder();
+        }
     }, [])
     return (
         <>
-        <Loading isLoading={isLoading}/>
+            <Loading isLoading={isLoading} />
             <div className="container">
-            <p className="text-end mt-3"><Link className="text-black" to="/">首頁</Link> / 完成訂單</p>
+                <p className="text-end mt-3"><Link className="text-black" to="/">首頁</Link> / 完成訂單</p>
                 <Stepper stepper={3}></Stepper>
                 <div className='d-flex justify-content-center align-items-center mt-3'>
                     <p className='fs-0 mx-2 my-auto'>
@@ -117,23 +126,19 @@ function Success() {
                     <div className='col-md-6'>
                         <h5 className="fw-bold mt-3">購買項目</h5>
                         <div className='card rounded-0 p-4 p-lg-5 mt-3'>
-                            <div className='card-body px-1'>
-                                {Object.values(orderData?.orderProducts || {}).map((item) => {
-                                    return (
-                                        <li key={item.id}>
-                                            <div className="d-flex justify-content-between border-bottom py-3">
-                                                <div className="d-flex">
-                                                    <img src={item.image} alt="..." style={{ width: '50px', height: '50px', objectFit: 'cover' }} />
-                                                    <div className="d-flex justify-content-between">
-                                                        <p className="mt-2 px-3">{item.name} x {item.quantity}</p>
-                                                        <p className="text-end mt-2 w-50">NT${item.price}</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </li>
-                                    )
-                                })}
-                            </div>
+
+                            {Object.values(orderData?.orderProducts || {}).map((item) => {
+                                return (
+                                    <li key={item.id} className="d-flex border-bottom py-3">               
+                                                <img src={item.image} alt="..." style={{ width: '50px', height: '50px', objectFit: 'cover' }} />
+                                                <div className="d-flex justify-content-between align-items-center w-100">
+                                                    <p className="mt-2 px-3">{item.name} x {item.OrderItem.quantity}</p>
+                                                    <p className="text-end mt-2">NT${item.price}</p>
+                                                </div>       
+                                    </li>
+                                )
+                            })}
+
                             <li className="d-flex justify-content-between px-1">
                                 <p className="h5 fw-bold">總計</p>
                                 <p className="h5 fw-bold">NT$ {orderData.amount}</p>
