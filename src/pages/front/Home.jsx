@@ -6,7 +6,7 @@ import ScrollIntoView from 'react-scroll-into-view';
 function Home() {
 
     const [products, setProducts] = useState([]);
-    const [newestProduct, setNewestProduct] = useState({});
+   
 
 
     const getProducts = async () => {
@@ -17,10 +17,10 @@ function Home() {
             })
 
             const newProducts = res.data.products.splice(0, 3);
-            console.log(newProducts)
-            setNewestProduct(res.data.products[0]);
+      
+         
             setProducts(newProducts);
-            console.log(newestProduct)
+      
         } catch (error) {
             console.log(error)
         }
@@ -33,7 +33,7 @@ function Home() {
     return (
         <>
             <div className="banner">
-                <img className="banner-img" src="./src/assets/images/home_banner.jpg" alt="banner_img" />
+                <img className="banner-img" src="./images/home_banner.jpg" alt="banner_img" />
                 <div className="content">
                     <h1 className="title text-white fw-bold mb-5">用「心」製作每一份甜蜜</h1>
                     <Link to="/products" className="fw-bold p-1 px-4 bg-primary text-white fs-2">前往品味</Link>
@@ -58,7 +58,7 @@ function Home() {
                         </p>
                     </div>
                     <div className="col-md-7">
-                        <img src="./src/assets/images/about.jpg" alt="about_us" />
+                        <img src="./images/about.jpg" alt="about_us" />
                     </div>
 
                 </div>
@@ -116,10 +116,10 @@ function Home() {
                                 <div className="img-wrapper overflow-hidden">
                                     <img className="home-products-card-img" src={products[0]?.image} alt={products[0]?.name} />
                                 </div>
-                                <div className="card-body p-3">
+                                <div className="card-body p-3 bg-white">
                                     <h5 className="home-products-card-title fw-bold">{products[0]?.name}</h5>
                                     <p className="fw-bold text-danger">NT$ {products[0]?.price} </p>
-                                    <button href="#" className="btn btn-primary"
+                                    <button href="#" className="btn btn-primary fw-bold"
                                     //onClick={() => addToCart(product.id)}
                                     >加入購物車</button>
                                 </div>
@@ -132,10 +132,10 @@ function Home() {
                                 <div className="img-wrapper overflow-hidden">
                                     <img className="home-products-card-sub-img" src={products[1]?.image} alt={products[1]?.name} />
                                 </div>
-                                <div className="card-body p-3">
+                                <div className="card-body p-3 bg-white">
                                     <h5 className="home-products-card-sub-title fw-bold">{products[1]?.name}</h5>
                                     <p className="fw-bold text-danger">NT$ {products[1]?.price} </p>
-                                    <button href="#" className="btn btn-primary"
+                                    <button href="#" className="btn btn-primary fw-bold"
                                     //onClick={() => addToCart(product.id)}
                                     >加入購物車</button>
                                 </div>
@@ -146,10 +146,10 @@ function Home() {
                                 <div className="img-wrapper overflow-hidden">
                                     <img className="home-products-card-sub-img" src={products[2]?.image} alt={products[1]?.name} />
                                 </div>
-                                <div className="card-body p-3">
+                                <div className="card-body bg-white p-3">
                                     <h5 className="home-products-card-sub-title fw-bold">{products[2]?.name}</h5>
                                     <p className="fw-bold text-danger">NT$ {products[2]?.price} </p>
-                                    <button href="#" className="btn btn-primary"
+                                    <button href="#" className="btn btn-primary fw-bold"
                                     //onClick={() => addToCart(product.id)}
                                     >加入購物車</button>
                                 </div>

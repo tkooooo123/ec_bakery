@@ -18,7 +18,7 @@ function Header({cartData}) {
                         <span className="navbar-toggler-icon"></span>
                     </button>
                     <NavLink to="/" className="navbar-brand d-flex align-items-center">
-                        <img src="src/assets/images/logo.png" alt="logo" />
+                        <img src="./images/logo.png" alt="logo" />
                         <span className="ms-2 fs-4">BAKERY</span>
                     </NavLink>
                     
