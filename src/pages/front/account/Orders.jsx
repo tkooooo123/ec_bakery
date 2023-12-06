@@ -4,6 +4,8 @@ import { Modal } from "bootstrap";
 import OrderModal from '../../../components/OrderModal';
 import { AuthContext } from '../../../store/AuthContext';
 import { useNavigate } from 'react-router-dom';
+import { MessageContext, handleErrorMessage, toastErrorMessage } from '../../../store/messageStore';
+import Loading from '../../../components/Loading';
 
 function Orders() {
     const [orders, setOrders] = useState([]);
@@ -11,13 +13,17 @@ function Orders() {
     const orderModal = useRef(null);
     const { token } = useContext(AuthContext).user;
     const navigate = useNavigate();
+    const [, dispatch] = useContext(MessageContext);
+    const [isLoading, setIsLoading] = useState(false);
     const getOrders = async () => {
         try {
+            setIsLoading(true);
             const res = await OrderApi.getOrders();
-            console.log(res.data.orders)
             setOrders(res.data.orders);
+            setIsLoading(false);
         } catch (error) {
-            console.log(error);
+            handleErrorMessage(dispatch, error);
+            setIsLoading(false);
         }
     }
 
@@ -32,16 +38,20 @@ function Orders() {
 
     useEffect(() => {
         if(!token) {
-            navigate('/login')
+           navigate('/login');
+           toastErrorMessage(dispatch, { message: '無法取得權限，請先登入！'});
+        } else {
+            getOrders();
         }
         orderModal.current = new Modal('#orderModal', {
             backdrop: 'static'
         })
-        getOrders();
+   
     }, [])
 
     return (
         <>
+        <Loading isLoading={isLoading}/>
             <h1 className="mt-3">訂單列表</h1>
             <table className="table">
                 <thead>

@@ -1,13 +1,15 @@
 import { MessageContext, handleErrorMessage } from "../store/messageStore";
 import { useContext, useEffect, useState } from "react";
 import OrderApi from '../apis/order';
-import propTypes from 'prop-types'
+import propTypes from 'prop-types';
+import { AuthContext } from '../store/AuthContext';
 
 
 function OrderModal({ selectedOrder, closeOrderModal, isAdmin }) {
     const [, dispatch] = useContext(MessageContext);
     const [tradeInfo, setTradeInfo] = useState({});
-    const order = selectedOrder
+    const order = selectedOrder;
+    const { token } = useContext(AuthContext).user;
     const getTradeInfo = async () => {
         try {
             if(isAdmin) {
@@ -26,7 +28,7 @@ function OrderModal({ selectedOrder, closeOrderModal, isAdmin }) {
  
 
     useEffect(() => {
-        if (!Number(order.payment_status)) {
+        if (token && !Number(order.payment_status)) {
             getTradeInfo();
         }
     }, [selectedOrder])
@@ -122,18 +124,13 @@ function OrderModal({ selectedOrder, closeOrderModal, isAdmin }) {
                                     <ul className='card-body'>
                                         {Object.values(selectedOrder?.orderProducts || {}).map((item) => {
                                             return (
-                                                <li key={item.id}>
-                                                    <div className="d-flex justify-content-between border-bottom py-3">
-                                                        <div className="d-flex">
-                                                            <img src={item.image} alt="商品圖片" style={{ width: '50px', height: '50px', objectFit: 'cover' }} />
-                                                            <div className="d-flex justify-content-between">
-                                                                <p className="mt-2 px-3">{item.name} x {item.OrderItem.quantity}</p>
-                                                                <p className="text-end mt-2 w-50">NT$ {item.price}</p>
-                                                            </div>
-                                                        </div>
-
-                                                    </div>
-                                                </li>
+                                                <li key={item.id} className="d-flex border-bottom py-3">               
+                                                <img src={item.image} alt="..." style={{ width: '50px', height: '50px', objectFit: 'cover' }} />
+                                                <div className="d-flex justify-content-between align-items-center w-100">
+                                                    <p className="mt-2 px-3">{item.name} x {item.OrderItem.quantity}</p>
+                                                    <p className="text-end mt-2">NT${item.price}</p>
+                                                </div>       
+                                    </li>
                                             )
                                         })}
                                     </ul>

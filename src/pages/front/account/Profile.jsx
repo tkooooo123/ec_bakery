@@ -3,12 +3,14 @@ import { AuthContext } from '../../../store/AuthContext';
 import { useContext, useEffect, useRef } from 'react';
 import { Modal } from "bootstrap";
 import EditUserModal from '../../../components/EditUserModal';
+import { MessageContext, toastErrorMessage } from '../../../store/messageStore';
 
 
 function Profile() {
     const { userData, token } = useContext(AuthContext).user;
     const navigate = useNavigate();
     const userModal = useRef(null);
+    const [,dispatch] = useContext(MessageContext);
 
     const openUserModal = () => {
         userModal.current.show();
@@ -23,7 +25,8 @@ function Profile() {
             backdrop: 'static'
         });
         if(!token) {
-            navigate('/login')
+            navigate('/login');
+            toastErrorMessage(dispatch, { message: '無法取得權限，請先登入！'});
         }
     }, [userData])
 

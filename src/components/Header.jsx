@@ -1,6 +1,7 @@
 import { NavLink } from "react-router-dom";
 import { useContext } from "react";
 import { AuthContext } from '../store/AuthContext';
+import propTypes from 'prop-types';
 
 function Header({cartData}) {
 
@@ -11,7 +12,7 @@ function Header({cartData}) {
 
     return (
         <>
-            <nav className="navbar navbar-expand-lg navbar-light bg-primary">
+            <nav className="navbar navbar-expand-lg navbar-light bg-primary  w-100">
                 <div className="container container-fluid">
                 <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                         <span className="navbar-toggler-icon"></span>
@@ -55,8 +56,8 @@ function Header({cartData}) {
                             <NavLink className="text-black fw-bold" to="/login">登入/註冊</NavLink>
                         )}
                          {isAuthenticated && (
-                            <NavLink className="text-black fw-bold" to="/"
-                            onClick={logout}
+                            <NavLink className="text-black fw-bold" to="/login"
+                            onClick={(logout)}
                             >登出</NavLink>
                         )}
                        
@@ -70,3 +71,7 @@ function Header({cartData}) {
 }
 
 export default Header;
+
+Header.propTypes = {
+    cartData: propTypes.object.isRequired,
+}

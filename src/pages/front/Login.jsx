@@ -2,16 +2,17 @@ import { Input } from '../../components/FormElements';
 import { useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
 import AuthorizationApi from '../../apis/authorization';
-import { useContext, } from 'react';
+import { useContext, useEffect, } from 'react';
+import { AuthContext } from '../../store/AuthContext';
 
-import { MessageContext, handleSuccessMessage, handleErrorMessage } from "../../store/messageStore";
+import { MessageContext, handleErrorMessage } from "../../store/messageStore";
 function Login() {
 
     const [, dispatch] = useContext(MessageContext);
+    const { token } = useContext(AuthContext).user
     const {
         register,
         handleSubmit,
-
         formState: { errors }
     } = useForm({
         mode: 'onTouched'
@@ -20,10 +21,7 @@ function Login() {
 
     const loginSubmit = async (data) => {
         try {
-
             const res = await AuthorizationApi.signIn(data);
-            console.log('res', res)
-
             if (res.status === 200) {
                 //儲存token
                 localStorage.setItem("token", res.data.token);
@@ -32,17 +30,16 @@ function Login() {
                 } else {
                     navigate('/');
                 }
-                handleSuccessMessage(dispatch, res.data);
-
             }
-
-
-
         } catch (error) {
             handleErrorMessage(dispatch, error);
-            console.log(error)
         }
     }
+    useEffect(() => {
+        if(token) {
+            navigate('/')
+        }
+    })
     return (
         <>
             <div className="container">
