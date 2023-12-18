@@ -1,27 +1,46 @@
 .banner {
+
     position: relative;
+
+    &::before {
+        position: absolute;
+        content: '';
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 100%;
+        opacity: 0.2;
+        background-color: rgb(24, 24, 24);
+        transition: all 0.3s ease-in;
+    }
+
     &-img {
         object-fit: cover;
         width: 100%;
         max-height: 600px;
         min-height: 450px;
     }
+
     .content {
         position: absolute;
         top: 50%;
         transform: translateY(-50%);
         right: 0.5rem;
-        
-    } 
+
+    }
+
     .title {
         font-size: 32px;
+
         @include md {
             font-size: 48px;
         }
     }
-    a{
+
+    a {
         border-radius: 100px;
     }
+
     .scroll-btn {
         position: absolute;
         bottom: 1rem;
@@ -32,9 +51,10 @@
         border-radius: 50%;
         cursor: pointer;
         transition: all .2s ease-in;
+
         &:hover {
             transform: translateX(-50%) scale(1.2);
-           
+
         }
     }
 }
@@ -76,6 +96,7 @@
         height: 100%;
         position: relative;
         transition: all 0.2s ease-in-out;
+        aspect-ratio: 1;
 
         &::before {
             position: absolute;
@@ -84,8 +105,8 @@
             left: 0;
             height: 100%;
             width: 100%;
-            opacity: 0.4;
-            background-color: $gray-300;
+            opacity: 0.3;
+            background-color: #393939;
             transition: all 0.3s ease-in;
         }
 
@@ -93,16 +114,18 @@
 
     a:hover {
         .home-categories-list-item {
+            
             transform: scale(1.1);
 
             &::before {
-                
-              background-color: transparent;
-              border: 8px solid $gray-300;
+
+                background-color: transparent;
+                border: 8px solid $gray-300;
 
             }
         }
     }
+
     a:last-child {
         .home-categories-list-item {
             &::before {
@@ -131,6 +154,7 @@
     &-list-item-img {
         object-fit: cover;
         max-width: 100%;
+        min-height: 100%;
         aspect-ratio: 1 / 1;
     }
 
@@ -139,6 +163,10 @@
 .home-products-card {
     border: 1px solid $primary;
     border-radius: 30px;
+
+    &-title {
+        color: black;
+    }
 
     &-img {
         border-top-left-radius: 30px;
@@ -150,6 +178,10 @@
 .home-products-card-sub {
     border: 1px solid $primary;
     border-radius: 30px;
+
+    &-title {
+        color: black;
+    }
 
     &-img {
         min-height: 100%;

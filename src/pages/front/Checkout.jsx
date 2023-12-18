@@ -103,7 +103,7 @@ function Checkout() {
     return (
         <>
             <Loading isLoading={isLoading} />
-            <div className="container">
+            <div className="container pt-66">
                 <p className="text-end mt-3"><Link className="text-black" to="/">首頁</Link> / 填寫資料</p>
                 <Stepper stepper={stepper}></Stepper>
                 <div className="row">

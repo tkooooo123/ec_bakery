@@ -105,7 +105,7 @@ function FrequencelyAskedQuestions() {
 
     return (
         <>
-            <div className="container">
+            <div className="container pt-66">
                 <div className="row mt-5">
                     <div className="col-lg-3">
                         <h1 className="fw-bold">常見問題</h1>

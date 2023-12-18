@@ -41,7 +41,7 @@ function Success() {
     return (
         <>
             <Loading isLoading={isLoading} />
-            <div className="container">
+            <div className="container pt-66">
                 <p className="text-end mt-3"><Link className="text-black" to="/">首頁</Link> / 完成訂單</p>
                 <Stepper stepper={3}></Stepper>
                 <div className='d-flex justify-content-center align-items-center mt-3'>

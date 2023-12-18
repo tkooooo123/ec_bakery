@@ -3,7 +3,7 @@ function Privacy() {
 
     return (
         <>
-            <div className="container">
+            <div className="container pt-66">
                 <p className="text-end mt-2">
                 <Link to="/" className="text-black">首頁</Link>
                      / 顧客服務 / 隱私權政策</p>

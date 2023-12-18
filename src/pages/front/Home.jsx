@@ -46,7 +46,7 @@ function Home() {
             </div>
             <div className="container">
                 <div className="row about" id="about">
-                    <h2 className="about-title fw-bold  text-white">About Us</h2>
+                    <h2 className="about-title fw-bold  text-primary">About Us</h2>
                     <div className="col-md-5">
                         <h3 className="fw-bold fs-1 text-center mt-5">營養 健康 無負擔</h3>
                         <p className="about-content text-center fs-3 mt-3">

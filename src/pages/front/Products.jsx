@@ -31,6 +31,7 @@ function Products() {
 
     const fetchProducts = async (page, categoryId) => {
         try {
+            setIsLoading(true);
             const res = await ProductsApi.getProducts({
                 page: page,
                 categoryId: categoryId || ""
@@ -62,7 +63,7 @@ function Products() {
                 quantity: 1,
             })
             postSuccessMessage(dispatch, res.data);
-            await getCart(dispatch);
+            await getCart()
 
         } catch (error) {
             setIsLoading(false);
@@ -88,7 +89,7 @@ function Products() {
 
     return (
         <>
-            <div className="container">
+            <div className="container pt-66 mh">
                 <Loading isLoading={isLoading} />
                 <div className="row mt-3">
                 <div className="d-flex justify-content-between align-items-center">
@@ -134,7 +135,7 @@ function Products() {
                                                 <div className="card-body p-3">
                                                     <h5 className="product-card-title fw-bold">{product.name}</h5>
                                                     <p className="fw-bold text-danger">NT${product.price}</p>
-                                                    <button href="#" className="btn btn-primary"
+                                                    <button className="btn btn-primary fw-bold"
                                                         onClick={(e) => {
                                                             e.preventDefault();
                                                             addToCart(product.id);

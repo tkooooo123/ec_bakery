@@ -107,7 +107,7 @@ function Cart() {
         <>
         <Loading isLoading={isLoading}/>
         <DeleteModal close={closeDeleteModal} handleDelete={handleDelete} text={text} title={title} />
-            <div className="container" style={{minHeight: 'calc(100vh - 200px)'}}>
+            <div className="container pt-66 mh">
                 <p className="text-end mt-3"><Link className="text-black" to="/">首頁</Link> / 購物車</p>
                 <Stepper stepper={stepper}></Stepper>
                 {!cartData?.carts?.length && (

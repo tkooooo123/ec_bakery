@@ -53,7 +53,7 @@ function ArticleDetail() {
     return (
         <>
             <Loading isLoading={isLoading} />
-            <div className="container">
+            <div className="container pt-66">
                 <p className="text-end mt-3"><Link className="text-black" to="/">首頁</Link> / <Link className="text-black" to="/articles">最新消息</Link> / {article.title}</p>
                 <div className="row justify-content-center">
                     <div className="col-md-9 mt-2 mb-5 p-3 bg-white">

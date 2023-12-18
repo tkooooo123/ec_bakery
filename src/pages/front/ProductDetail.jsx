@@ -89,7 +89,7 @@ function ProductDetail() {
 
     return (
         <>
-            <div className="container">
+            <div className="container pt-66">
                 <Loading isLoading={isLoading}/>
                 <div>
                     <FsLightbox
