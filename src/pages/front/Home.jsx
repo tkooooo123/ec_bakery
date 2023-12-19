@@ -6,7 +6,7 @@ import ScrollIntoView from 'react-scroll-into-view';
 function Home() {
 
     const [products, setProducts] = useState([]);
-   
+   const [categories, setCategories] = useState([]);
 
 
     const getProducts = async () => {
@@ -18,8 +18,8 @@ function Home() {
 
             const newProducts = res.data.products.splice(0, 3);
       
-         
             setProducts(newProducts);
+            setCategories(res.data.categories);
       
         } catch (error) {
             console.log(error)
@@ -69,37 +69,17 @@ function Home() {
                 <div className="container">
                     <h2 className="home-categories-title text-primary fw-bold">Categories</h2>
                     <ul className="home-categories-list row g-3 pt-3">
-                        <Link className="col-lg-2 col-4">
+                        {categories.map((category => {
+                            return (
+                                <Link className="col-lg-2 col-4" key={category.id} to={`/products?categoryId=${category.id}&page=1`}>
                             <li className="home-categories-list-item">
-                                <span className="home-categories-list-item-name">手工餅乾</span>
-                                <img className="home-categories-list-item-img" src="https://tokyo-kitchen.icook.network/uploads/recipe/cover/81654/ecdf702af6a7b08c.jpg" alt="手工餅乾" />
+                                <span className="home-categories-list-item-name">{category.name}</span>
+                                <img className="home-categories-list-item-img" src={category.image} alt="手工餅乾" />
                             </li>
                         </Link>
-                        <Link className="col-lg-2 col-4">
-                            <li className="home-categories-list-item">
-                                <span className="home-categories-list-item-name">馬卡龍</span>
-                                <img className="home-categories-list-item-img" src="https://www.sweet-dumpling.com/media/content/4e6846c86858d8ac69c3e236b4416540/macaron-cover.jpg" alt="馬卡龍" />
-                            </li>
-                        </Link>
-                        <Link className="col-lg-2 col-4">
-                            <li className="home-categories-list-item">
-                                <span className="home-categories-list-item-name">泡芙</span>
-                                <img className="home-categories-list-item-img" src="https://photo.yannick.com.tw/photo/20200815/%E6%89%8B%E5%B7%A5%E6%B3%A1%E8%8A%99-%E5%8E%9F%E5%91%B3.jpg" alt="泡芙" />
-                            </li>
-                        </Link>
-                        <Link className="col-lg-2 col-4">
-                            <li className="home-categories-list-item">
-                                <span className="home-categories-list-item-name">麵包</span>
-                                <img className="home-categories-list-item-img" src="https://s.yimg.com/ny/api/res/1.2/GQuIhEbcmXULpITwRX2DMA--/YXBwaWQ9aGlnaGxhbmRlcjt3PTk2MDtoPTY0MDtjZj13ZWJw/https://media.zenfs.com/zh-tw/chinatimes.com.tw/f5bf07315265704aff598c210db13004" alt="麵包" />
-                            </li>
-                        </Link>
-                        <Link className="col-lg-2 col-4">
-                            <li className="home-categories-list-item">
-                                <span className="home-categories-list-item-name">吐司</span>
-                                <img className="home-categories-list-item-img" src="https://as.chdev.tw/web/article/8/6/4/80f1b7cd-6e47-4c71-858e-03cb3ad2882f1614757510.jpg" alt="麵包" />
-                            </li>
-                        </Link>
-                        <Link className="col-lg-2 col-4">
+                            )
+                        }))}
+                        <Link className="col-lg-2 col-4" to="/products">
                             <li className="home-categories-list-item bg-primary">
                                 <span className="home-categories-list-item-name">更多</span>
                             </li>
