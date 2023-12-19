@@ -36,11 +36,29 @@ function ProductModal({ type, closeProductModal, initialProduct, getProducts, ca
 
 
     //上傳主要圖片
-    const uploadImg = () => {
-        const file = fileRef.current.files[0]
-        const imageURL = window.URL.createObjectURL(file);
-        setProduct({ ...product, image: imageURL })
+    const uploadImg = async () => {
+        try {
+            setIsLoading(true);
+            const file = fileRef.current.files[0]
 
+            const formData = new FormData();
+            formData.append('image', file);
+
+            const res = await AdminApi.uploadImg({
+                formData
+            })
+
+            if (res.status === 200) {
+                setProduct({ ...product, image: res.data.imageUrl })
+                setValue('image', res.data.imageUrl)
+
+            }
+            setIsLoading(false);
+
+        } catch (error) {
+            setIsLoading(false);
+            handleErrorMessage(dispatch, error);
+        }
     }
     //上傳次要圖片
     const uploadImgs = async () => {
@@ -75,9 +93,7 @@ function ProductModal({ type, closeProductModal, initialProduct, getProducts, ca
             setIsLoading(true);
             const formData = new FormData();
             for (let key in data) {
-                if (key === 'image') {
-                    formData.append(key, fileRef.current.files[0]);
-                } else if (key === 'imagesUrl') {
+                if (key === 'imagesUrl') {
                     const imgs = JSON.stringify(product.imagesUrl);
                     formData.append(key, imgs);
 
@@ -128,7 +144,8 @@ function ProductModal({ type, closeProductModal, initialProduct, getProducts, ca
                 price: 50,
                 description: '',
                 content: '',
-                is_enabled: true
+                unit: '',
+                isEnabled: true
             }
             setProduct({
                 ...defaultData
@@ -146,7 +163,8 @@ function ProductModal({ type, closeProductModal, initialProduct, getProducts, ca
             setValue('price', initialProduct.price);
             setValue('description', initialProduct.description);
             setValue('content', initialProduct.content);
-            setValue('is_enabled', initialProduct.is_enabled)
+            setValue('isEnabled', initialProduct.isEnabled);
+            setValue('unit', initialProduct.unit)
         }
 
 
@@ -279,6 +297,34 @@ function ProductModal({ type, closeProductModal, initialProduct, getProducts, ca
                                                     >
                                                     </Input>
                                                 </div>
+                                                <div className='form-group mb-2 col-md-6'>
+                                                    <Input
+                                                        id='unit'
+                                                        type='text'
+                                                        errors={errors}
+                                                        labelText='包裝單位'
+                                                        register={register}
+                                                        placeholder='請輸入包裝單位'
+                                                        rules={{
+                                                            required: '包裝單位為必填'
+                                                        }}
+                                                    >
+                                                    </Input>
+                                                </div>
+                                            </div>
+                                            <div className='form-group mb-2'>
+                                                <Input
+                                                    id='image'
+                                                    type='text'
+                                                    errors={errors}
+                                                    labelText='圖片網址'
+                                                    register={register}
+                                                    placeholder='請輸入圖片網址'
+                                                    rules={{
+                                                        required: '圖片網址為必填',
+                                                    }}
+                                                >
+                                                </Input>
                                             </div>
                                             <hr />
                                             <div className='form-group mb-2'>
@@ -313,9 +359,9 @@ function ProductModal({ type, closeProductModal, initialProduct, getProducts, ca
                                             <div className='form-group mb-2'>
                                                 <div className='form-check'>
                                                     <CheckboxRadio
-                                                        id="is_enabled"
+                                                        id="isEnabled"
                                                         type="checkbox"
-                                                        name="is_enabled"
+                                                        name="isEnabled"
                                                         register={register}
                                                         errors={errors}
                                                         labelText="是否啟用"
