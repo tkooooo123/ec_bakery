@@ -48,7 +48,7 @@ function AdminHome() {
                                         {orders?.map((order) => {
                                             return (
                                                 <tr key={order.id}>
-                                                    <td>{order.id}</td>
+                                                    <td>{order.osn}</td>
                                                     <td>{order.name}</td>
                                                     <td>{order.amount} 元</td>
                                                     <td>{Number(order.payment_status) ? '已付款' : '未付款'}</td>

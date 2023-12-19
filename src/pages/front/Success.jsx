@@ -52,7 +52,7 @@ function Success() {
                     </p>
                     <div>
                         <h5 className="fw-bold mt-2">感謝您！您的訂單已建立完成</h5>
-                        <p className="text-muted">訂單編號：{orderData.id}</p>
+                        <p className="text-muted">訂單編號：{orderData.osn}</p>
                     </div>
                 </div>
                 <div className="row">

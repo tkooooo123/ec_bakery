@@ -68,7 +68,7 @@ function Orders() {
                         return (
                             <tr className="text-center" key={order.id}>
                                 <td className="align-middle" style={{ wordBreak: 'break-all' }}>
-                                            {order.id}
+                                            {order.osn}
                                         </td>
                                         <td className="align-middle">
                                             NT$ {order.amount}

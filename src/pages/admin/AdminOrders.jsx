@@ -110,7 +110,7 @@ function AdminOrders() {
                         {orders?.map((order) => {
                             return (
                                 <tr key={order.id}>
-                                    <td>{order.id}</td>
+                                    <td>{order.osn}</td>
                                     <td>{order.createdAt}</td>
                                     <td>{order.amount} 元</td>
                                     <td>
