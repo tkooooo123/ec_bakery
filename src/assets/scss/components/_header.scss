@@ -19,6 +19,22 @@
     height: 50px;
     align-items: center;
 }
+.icon-list-item {
+    padding: 8px;
+    border-radius: 8px;
+    color: black;
+    transition: all 0.2s;
+    &:hover {
+        cursor: pointer;
+        background-color: #fff;
+        color: $primary
+    }
+    
+}
+.icon-list-item.s-active {
+    background-color: #fff;
+    color: $primary;
+}
 
 
 //toggle
@@ -140,4 +156,42 @@ padding-left: 1.5rem;
         position: static;
         display: flex;
     }
+}
+
+.search-collapse {
+    position: absolute;
+    top: 66px;
+    width: 250px;
+    right: 0;
+    background-color: $primary;
+    border-radius: 10px;
+    input {
+       border-right-color: $primary; 
+    }
+    word-break: break-all;
+    transition: all 0.1s ease-in-out;
+    z-index: -1;
+    .disabled{ 
+        color:$primary;
+        opacity: 0.9;
+    }
+}
+.search-bar {
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.search-link {
+    display: flex;
+    align-items: center;
+    background-color: #fff;
+    color: $primary;
+    &:hover {
+        color: $primary;
+    }
+}
+
+.cartItem-quantity {
+    top: 8px;
+    left: calc(100% - 8px);
 }
