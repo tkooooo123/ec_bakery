@@ -16,6 +16,8 @@ import FrequencelyAskedQuestions from './pages/front/FrequencelyAskedQuestions';
 import Articles from './pages/front/Articles';
 import ArticleDetail from './pages/front/ArticleDetail';
 import ContactUs from './pages/front/ContactUs';
+import Search from './pages/front/Search';
+import BrandStory from './pages/front/BrandStory';
 import AdminDashboard from './pages/admin/AdminDashboard';
 import AdminHome from './pages/admin/AdminHome';
 import AdminOrders from './pages/admin/AdminOrders';
@@ -25,6 +27,7 @@ import AdminArticles from './pages/admin/AdminArticles';
 
 import { MessageContext, MessageReducer, initState } from './store/messageStore';
 import { useReducer } from 'react';
+import AutoScrollToTop from './components/AutoScrollToTop';
 
 function App() {
   const reducer = useReducer(MessageReducer, initState);
@@ -32,35 +35,38 @@ function App() {
   return (
     <>
       <MessageContext.Provider value={reducer}>
-        <Routes>
-          <Route path="/" element={<FrontLayout />}>
-            <Route path="" element={<Home />}></Route>
-            <Route path="products" element={<Products />}></Route>
-            <Route path="product/:id" element={<ProductDetail />}></Route>
-            <Route path="/login" element={<Login />}></Route>
-            <Route path="/register" element={<Register />}></Route>
-            <Route path="/cart" element={<Cart />}></Route>
-            <Route path="/checkout" element={<Checkout />}></Route>
-            <Route path="/success/:orderId" element={<Success />}></Route>
-            <Route path="/account" element={<AccountDashboard />}>
-              <Route path="profile" element={<Profile />}></Route>
-              <Route path="order" element={<Orders />}></Route>
+        <AutoScrollToTop>
+          <Routes>
+            <Route path="/" element={<FrontLayout />}>
+              <Route path="" element={<Home />}></Route>
+              <Route path="products" element={<Products />}></Route>
+              <Route path="product/:id" element={<ProductDetail />}></Route>
+              <Route path="/login" element={<Login />}></Route>
+              <Route path="/register" element={<Register />}></Route>
+              <Route path="/cart" element={<Cart />}></Route>
+              <Route path="/checkout" element={<Checkout />}></Route>
+              <Route path="/success/:orderId" element={<Success />}></Route>
+              <Route path="/account" element={<AccountDashboard />}>
+                <Route path="profile" element={<Profile />}></Route>
+                <Route path="order" element={<Orders />}></Route>
+              </Route>
+              <Route path="/privacy" element={<Privacy />}></Route>
+              <Route path="/frequencely_asked_questions" element={<FrequencelyAskedQuestions />}></Route>
+              <Route path="/articles" element={<Articles />}></Route>
+              <Route path="/article/:id" element={<ArticleDetail />}></Route>
+              <Route path="contactus" element={<ContactUs />}></Route>
+              <Route path="search" element={<Search />}></Route>
+              <Route path="brandstory" element={<BrandStory />}></Route>
             </Route>
-            <Route path="/privacy" element={<Privacy />}></Route>
-            <Route path="/frequencely_asked_questions" element={<FrequencelyAskedQuestions />}></Route>
-            <Route path="/articles" element={<Articles />}></Route>
-            <Route path="/article/:id" element={<ArticleDetail />}></Route>
-            <Route path="contactus" element={<ContactUs />}></Route>
-          </Route>
-          <Route path="/admin" element={<AdminDashboard />}>
-            <Route path="home" element={<AdminHome />}></Route>
-            <Route path="orders" element={<AdminOrders />}></Route>
-            <Route path="products" element={<AdminProducts />}></Route>
-            <Route path="categories" element={<AdminCategories />}></Route>
-            <Route path="articles" element={<AdminArticles />}></Route>
-          </Route>
-        </Routes>
-
+            <Route path="/admin" element={<AdminDashboard />}>
+              <Route path="home" element={<AdminHome />}></Route>
+              <Route path="orders" element={<AdminOrders />}></Route>
+              <Route path="products" element={<AdminProducts />}></Route>
+              <Route path="categories" element={<AdminCategories />}></Route>
+              <Route path="articles" element={<AdminArticles />}></Route>
+            </Route>
+          </Routes> 
+        </AutoScrollToTop>
       </MessageContext.Provider>
 
     </>
