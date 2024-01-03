@@ -6,8 +6,7 @@ import CartApi from '../../apis/cart';
 import Message from "../../components/Message";
 import { MessageContext, handleErrorMessage  } from "../../store/messageStore";
 import { AuthContext } from '../../store/AuthContext';
-
-
+import GoTopButton from '../../components/GoTopButton';
 
 function FrontLayout() {
     const [cartData, setCartData] = useState({});
@@ -22,11 +21,9 @@ function FrontLayout() {
             }
             const res = await CartApi.getCart();
             setCartData(res.data); 
-
         } catch (error) {
          handleErrorMessage(dispatch, error)
-         console.log('error')
-            console.log(error);
+      
         }
     }
     useEffect(() => {
@@ -40,6 +37,7 @@ function FrontLayout() {
                 <Header cartData={cartData}></Header>
                 <Outlet context={{cartData, getCart}}/>
                 <Footer></Footer>
+                <GoTopButton></GoTopButton>
            
         </>
     )
