@@ -35,12 +35,12 @@ function AccountDashboard() {
 
                             <ul className="account-aside-list mt-3 d-flex d-md-block">
                                 <li className="account-aside-list-item">
-                                    <Link className="text-black fw-bold" to="/account/profile"
+                                    <Link className={`fw-bold p-1 ${text === '帳戶中心' ? 'active' : ''}`} to="/account/profile"
                                     onClick={(e) =>handleClick(e)}
                                     >帳戶中心</Link>
                                 </li>
                                 <li className="account-aside-list-item mt-md-2 ms-3 ms-md-0 ">
-                                    <Link className="text-black fw-bold" to="/account/order"
+                                    <Link className={`fw-bold p-1 ${text === '我的訂單' ? 'active' : ''}`} to="/account/order"
                                     onClick={(e) =>handleClick(e)}
                                     >我的訂單</Link>
                                 </li>

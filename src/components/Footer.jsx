@@ -9,8 +9,8 @@ function Footer() {
                         <div className="col-md-4 col-6">
                             <h4 className="fw-bold">關於我們</h4>
                             <ul className="d-flex flex-column ">
-                                <a href="#" className="text-black">品牌故事</a>
-                                <a href="#" className="text-black">門市資訊</a>
+                                <Link to="/brandstory" className="text-black">品牌故事</Link>
+                                <Link to="/contactus" className="text-black">聯絡我們</Link>
                             </ul>
                         </div>
                         <div className="col-md-4 col-6">

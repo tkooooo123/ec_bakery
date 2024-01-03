@@ -86,7 +86,11 @@ function Header({ cartData }) {
                     </NavLink>
                     <div className="collapse navbar-collapse" id="navbarNav">
                         <ul className="navbar-nav me-auto mb-2 mb-lg-0 ms-3 ms-lg-0 h-100">
-
+                        <li className="nav-item fw-bold fs-5">
+                                <NavLink to="/brandstory"
+                                    onClick={closeCollapse}
+                                >品牌故事</NavLink>
+                            </li>
                             <li className="nav-item fw-bold fs-5">
                                 <NavLink to="/articles"
                                     onClick={closeCollapse}
@@ -98,7 +102,7 @@ function Header({ cartData }) {
                                 >全部商品</NavLink>
                             </li>
                             <li className="nav-item fw-bold fs-5 d-lg-none">
-                                <NavLink to="/account"
+                                <NavLink to="/account/profile"
                                     onClick={closeCollapse}
                                 >帳戶中心</NavLink>
                             </li>
@@ -162,7 +166,7 @@ function Header({ cartData }) {
                                 </div>
                             </div>
                         </div>
-                        <NavLink to="/account/profile" className="icon-list-item d-flex align-items-center" >
+                        <NavLink to="/account/profile" className="icon-list-item d-none d-lg-flex align-items-center" >
                             <span className="material-icons fs-2">
                                 account_circle
                             </span>

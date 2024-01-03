@@ -49,6 +49,7 @@ function Search() {
             setIsLoading(true);
             if (!isAuthenticated) {
                 authErrorMessage(dispatch);
+                setIsLoading(false);
                 return
             }
             const res = await CartApi.postCart({
@@ -81,7 +82,7 @@ function Search() {
                 </div>
                 <div className="col-md-3 d-flex d-md-block">
                     <h4 className="mt-3 mb-3 fw-bold align-self-center">搜尋關鍵字：</h4>
-                    <span className="bg-white text-primary py-1 px-3 rounded-3 fw-bold fs-5 mt-lg-0 my-3">{keyword}</span>
+                    <span className="bg-primary text-white py-1 px-3 rounded-3 fw-bold fs-5 mt-lg-0 my-3">{keyword}</span>
                 </div>
                 <div className="col-md-9">
                     <div className="row mt-3">

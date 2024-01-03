@@ -49,13 +49,13 @@ function CategoryModal({ type, initialCategory, closeCategoryModal, getCategorie
             if (res.status === 200) {
                 setCategory({ ...category, image: res.data.imageUrl })
                 setValue('image', res.data.imageUrl)
-                
+
             }
             setIsLoading(false);
 
         } catch (error) {
             setIsLoading(false);
-            handleErrorMessage(dispatch,error);
+            handleErrorMessage(dispatch, error);
         }
     }
 
@@ -81,7 +81,7 @@ function CategoryModal({ type, initialCategory, closeCategoryModal, getCategorie
         } catch (error) {
             setIsLoading(false);
             handleErrorMessage(dispatch, error)
-            
+
         }
 
     }
@@ -131,7 +131,7 @@ function CategoryModal({ type, initialCategory, closeCategoryModal, getCategorie
 
     return (
         <>
-        <Loading isLoading={isLoading} />
+            <Loading isLoading={isLoading} />
             <div className="modal fade" id="categoryModal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 
                 <div className="modal-dialog modal-lg">

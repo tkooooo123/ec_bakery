@@ -54,8 +54,10 @@ function Products() {
 
     const addToCart = async (id) => {
         try {
+            setIsLoading(true);
             if (!isAuthenticated) {
                 authErrorMessage(dispatch);
+                setIsLoading(false);
                 return
             }
             const res = await CartApi.postCart({
@@ -63,8 +65,8 @@ function Products() {
                 quantity: 1,
             })
             postSuccessMessage(dispatch, res.data);
-            await getCart()
-
+            await getCart();
+            setIsLoading(false);
         } catch (error) {
             setIsLoading(false);
             handleErrorMessage(dispatch, error);
@@ -92,14 +94,14 @@ function Products() {
             <div className="container pt-66 mh">
                 <Loading isLoading={isLoading} />
                 <div className="row mt-3">
-                <div className="d-flex justify-content-between align-items-center">
+                    <div className="d-flex justify-content-between align-items-center">
                         <h1 className="fw-bold">本店商品</h1>
                         <p className="text-end"><Link className="text-black" to="/">首頁</Link> / 本店商品 / {currentCategory === "" ? "全部商品" : currentCategory}</p>
 
-                        </div>
+                    </div>
                     <div className="col-sm-3">
-                       
-                       
+
+
                         <ul className="d-flex flex-sm-column categories-list">
                             <li className={`categories-list-item fw-bold mt-3 ${currentCategory === "" ? "active" : ""}`} onClick={() => {
                                 setCurrentCategory("");

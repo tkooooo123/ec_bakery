@@ -1,29 +1,77 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import ProductApi from '../../apis/products';
-import { Link } from 'react-router-dom';
+import CartApi from '../../apis/cart';
+import { Link, useOutletContext } from 'react-router-dom';
 import ScrollIntoView from 'react-scroll-into-view';
+import { Input } from '../../components/FormElements';
+import { useForm } from 'react-hook-form';
+import { MessageContext, handleErrorMessage, postSuccessMessage, authErrorMessage } from '../../store/messageStore';
+import Loading from '../../components/Loading';
+import { AuthContext } from '../../store/AuthContext';
+
 
 function Home() {
 
     const [products, setProducts] = useState([]);
-   const [categories, setCategories] = useState([]);
+    const [categories, setCategories] = useState([]);
+    const [, dispatch] = useContext(MessageContext);
+    const [isLoading, setIsLoading] = useState(false);
+    const { getCart } = useOutletContext();
+    const auth = useContext(AuthContext);
+    const { isAuthenticated } = auth.user;
+
+    const {
+        register,
+        handleSubmit,
+        formState: { errors }
+    } = useForm({
+        mode: 'onTouched'
+    });
 
 
     const getProducts = async () => {
         try {
+            setIsLoading(true);
             const res = await ProductApi.getProducts({
                 page: 1,
                 categoryId: ""
             })
 
             const newProducts = res.data.products.splice(0, 3);
-      
+
             setProducts(newProducts);
             setCategories(res.data.categories);
-      
+            setIsLoading(false);
+
         } catch (error) {
-            console.log(error)
+            handleErrorMessage(dispatch, error)
+            setIsLoading(false);
         }
+    }
+    const addToCart = async (id) => {
+        try {
+            setIsLoading(true);
+            if (!isAuthenticated) {
+                authErrorMessage(dispatch);
+                setIsLoading(false);
+                return
+            }
+            const res = await CartApi.postCart({
+                productId: id,
+                quantity: 1,
+            })
+            postSuccessMessage(dispatch, res.data);
+            await getCart();
+            setIsLoading(false);
+        } catch (error) {
+            setIsLoading(false);
+            handleErrorMessage(dispatch, error);
+        }
+    }
+    const onSubmit = () => {
+        postSuccessMessage(dispatch, {
+            message: '訂閱成功！'
+        })
     }
 
     useEffect(() => {
@@ -32,6 +80,7 @@ function Home() {
 
     return (
         <>
+        <Loading isLoading={isLoading}/>
             <div className="banner">
                 <img className="banner-img" src="./images/home_banner.jpg" alt="banner_img" />
                 <div className="content">
@@ -39,9 +88,9 @@ function Home() {
                     <Link to="/products" className="fw-bold p-1 px-4 bg-primary text-white fs-2">前往品味</Link>
                 </div>
                 <ScrollIntoView selector="#about">
-                <span className="material-icons scroll-btn text-white fs-1 fw-bold p-2">
-                            keyboard_double_arrow_down
-                        </span>
+                    <span className="material-icons scroll-btn text-white fs-1 fw-bold p-2">
+                        keyboard_double_arrow_down
+                    </span>
                 </ScrollIntoView>
             </div>
             <div className="container">
@@ -72,11 +121,11 @@ function Home() {
                         {categories.map((category => {
                             return (
                                 <Link className="col-lg-2 col-4" key={category.id} to={`/products?categoryId=${category.id}&page=1`}>
-                            <li className="home-categories-list-item">
-                                <span className="home-categories-list-item-name">{category.name}</span>
-                                <img className="home-categories-list-item-img" src={category.image} alt="手工餅乾" />
-                            </li>
-                        </Link>
+                                    <li className="home-categories-list-item">
+                                        <span className="home-categories-list-item-name">{category.name}</span>
+                                        <img className="home-categories-list-item-img" src={category.image} alt="手工餅乾" />
+                                    </li>
+                                </Link>
                             )
                         }))}
                         <Link className="col-lg-2 col-4" to="/products">
@@ -89,7 +138,7 @@ function Home() {
             </div>
             <div className="container">
                 <div className="home-products row g-3 my-5">
-                    <h2 className="fw-bold text-center">新品上市</h2>
+                    <h2 className="fw-bold text-center text-primary fs-1">新品上市</h2>
                     <div className="col-md-6">
                         <Link to={`/product/${products[0]?.id}`}>
                             <div className="home-products-card overflow-hidden">
@@ -100,7 +149,10 @@ function Home() {
                                     <h5 className="home-products-card-title fw-bold">{products[0]?.name}</h5>
                                     <p className="fw-bold text-danger">NT$ {products[0]?.price} </p>
                                     <button href="#" className="btn btn-primary fw-bold"
-                                    //onClick={() => addToCart(product.id)}
+                                     onClick={(e) => {
+                                        e.preventDefault();
+                                        addToCart(products[0].id);
+                                    }}
                                     >加入購物車</button>
                                 </div>
                             </div>
@@ -116,7 +168,10 @@ function Home() {
                                     <h5 className="home-products-card-sub-title fw-bold">{products[1]?.name}</h5>
                                     <p className="fw-bold text-danger">NT$ {products[1]?.price} </p>
                                     <button href="#" className="btn btn-primary fw-bold"
-                                    //onClick={() => addToCart(product.id)}
+                                    onClick={(e) => {
+                                        e.preventDefault();
+                                        addToCart(products[1].id);
+                                    }}
                                     >加入購物車</button>
                                 </div>
                             </div>
@@ -130,13 +185,57 @@ function Home() {
                                     <h5 className="home-products-card-sub-title fw-bold">{products[2]?.name}</h5>
                                     <p className="fw-bold text-danger">NT$ {products[2]?.price} </p>
                                     <button href="#" className="btn btn-primary fw-bold"
-                                    //onClick={() => addToCart(product.id)}
+                                     onClick={(e) => {
+                                        e.preventDefault();
+                                        addToCart(products[2].id);
+                                    }}
                                     >加入購物車</button>
                                 </div>
                             </div>
                         </Link>
                     </div>
                 </div>
+            </div>
+            <div className="subscribe container my-5 py-3 bg-primary">
+                <div className="row">
+                    <div className="col-md-6 d-md-flex flex-row-reverse">
+                        <div>
+                        <h3 className="subscribe-title text-white fw-bold text-center ps-2">訂閱電子報</h3>
+                        <p className="fw-bold text-white text-center m-0 fs-5">隨時取得最新資訊與活動</p>
+                        </div>
+                    </div>
+                    <div className="col-md-6">
+                        <form action="" onSubmit={handleSubmit(onSubmit)}>
+                        <div className='form-group m-0 pb-3  mx-md-3 mx-auto position-relative'>
+                            <Input
+                                id='email'
+                                type='email'
+                                errors={errors}
+                                labelText=''
+                                register={register}
+                                placeholder={'example@gmail.com'}
+                                rules={{
+                                    required: 'Email 為必填',
+                                    pattern: {
+                                        value: /^\S+@\S+$/i,
+                                        message: 'Email 格式不正確'
+                                    },
+                                }}
+                            >
+                            </Input>
+                            <button className="subscribe-btn">
+                                <span className="material-icons text-primary">
+                                    near_me
+                                </span>
+                            </button>
+                        </div>
+
+                        </form>
+                       
+                    </div>
+                </div>
+
+
             </div>
         </>
     )

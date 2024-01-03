@@ -114,7 +114,7 @@
 
     a:hover {
         .home-categories-list-item {
-            
+
             transform: scale(1.1);
 
             &::before {
@@ -210,6 +210,49 @@
     a:hover {
         img {
             transform: scale(1.1);
+        }
+    }
+}
+
+.subscribe {
+    border-radius: 20px;
+    &-title {
+        letter-spacing: 0.5rem;
+    }
+    span {
+        display: none;
+    }
+
+    .form-group {
+        width: 300px;
+    }
+
+    input {
+        width: calc(100% - 40px);
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+    }
+
+    &-btn {
+        position: absolute;
+        top: 24px;
+        right: 0;
+        height: 37.6px;
+        width: 40px;
+        padding: 6px;
+        border-top-right-radius: 8px;
+        border-bottom-right-radius: 8px;
+        border-style: none;
+        border-left: 1px solid $primary;
+        background-color: #fff;
+        transition: all 0.2s;
+        &:hover {
+           span{
+            transform: scale(1.2);
+           }
+        }
+        span {
+            display: block;
         }
     }
 }
