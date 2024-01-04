@@ -9,7 +9,6 @@ import AdminApi from "../../apis/admin"
 function AdminArticles() {
     const [articles, setArticles] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
-    const [pagination, setPagination] = useState({});
     const [type, setType] = useState('create');
     const [selectedArticle, setSelectedArticle] = useState({});
     const [, dispatch] = useContext(MessageContext);
@@ -95,33 +94,40 @@ function AdminArticles() {
                         <tr>
                             <th>日期</th>
                             <th>標題</th>
-                            <th>作者</th>
-                            <th>描述</th>
-                            <th>公開狀態</th>
-                            <th>編輯 / 刪除</th>
+                            <th className="d-none d-md-table-cell">作者</th>
+                            <th className="d-none d-md-table-cell">描述</th>
+                            <th className="d-none d-md-table-cell">公開狀態</th>
+                            <th>編輯</th>
+                            <th>刪除</th>
                         </tr>
                     </thead>
                     <tbody>
                         {articles.map((article) => {
                             return (
                                 <tr key={article.id}>
-                                    <td>{article.createdAt.split('T')[0]}</td>
-                                    <td>{article.title}</td>
-                                    <td>{article.author}</td>
-                                    <td>{article.description}</td>
-                                    <td>{article.isPublic ? '啟用' : '未啟用'}</td>
-                                    <td>
+                                    <td className="align-middle">{article.createdAt.split('T')[0]}</td>
+                                    <td className="align-middle">{article.title}</td>
+                                    <td className="d-none d-md-table-cell align-middle">{article.author}</td>
+                                    <td className="d-none d-md-table-cell align-middle">{article.description}</td>
+                                    <td className="d-none d-md-table-cell align-middle">{article.isPublic ? '啟用' : '未啟用'}</td>
+                                    <td className="align-middle">
                                         <button type='button' className='btn btn-primary btn-sm'
                                             onClick={() => openArticleModal('edit', article)}
                                         >
-                                            編輯
+                                           <span className="material-icons fs-4">
+                                                edit
+                                            </span>
                                         </button>
-                                        <button
+                                    </td>
+                                    <td className="align-middle">
+                                    <button
                                             type='button'
                                             className='btn btn-outline-danger btn-sm ms-2'
                                             onClick={() => openDeleteModal(article)}
                                         >
-                                            刪除
+                                            <span className="material-icons fs-4">
+                                                delete
+                                            </span>
                                         </button>
                                     </td>
                                 </tr>

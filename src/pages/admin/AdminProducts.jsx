@@ -104,10 +104,10 @@ function AdminProducts() {
                         <tr>
                             <th>圖片</th>
                             <th>名稱</th>
-                            <th>分類</th>
-                            <th>價格</th>
-                            <th>數量</th>
-                            <th>啟用狀態</th>
+                            <th className="d-none d-md-table-cell">分類</th>
+                            <th className="d-none d-md-table-cell">價格</th>
+                            <th className="d-none d-md-table-cell">數量</th>
+                            <th className="d-none d-md-table-cell">啟用狀態</th>
                             <th>編輯</th>
                             <th>刪除</th>
                         </tr>
@@ -116,23 +116,29 @@ function AdminProducts() {
                         {products?.map((product) => {
                             return (
                                 <tr key={product.id}>
-                                    <td className="align-middle"><img src={product.image} alt={product.name} style={{ width: '100px', height: '100px' }} /></td>
+                                    <td className="align-middle"><img src={product.image} alt={product.name} style={{ width: '100px', height: '100px',objectFit: 'contain' }} /></td>
                                     <td className="align-middle">{product.name}</td>
-                                    <td className="align-middle">{product.Category.name}</td>
-                                    <td className="align-middle">NT$ {product.price}</td>
-                                    <td className="align-middle">{product.quantity}</td>
-                                    <td className="align-middle">{product.is_enabled ? '已啟用' : '未啟用'}</td>
+                                    <td className="align-middle d-none d-md-table-cell">{product.Category.name}</td>
+                                    <td className="align-middle d-none d-md-table-cell">NT$ {product.price}</td>
+                                    <td className="align-middle d-none d-md-table-cell">{product.quantity}</td>
+                                    <td className="align-middle d-none d-md-table-cell">{product.isEnabled ? '已啟用' : '未啟用'}</td>
                                     <td className="align-middle">
-                                        <button type="button" className="btn btn-outline-primary"
+                                        <button type="button" className="btn btn-primary"
                                         onClick={() => openProductModal('edit', product)}
                                         >
-                                            編輯
+                                            <span className="material-icons fs-4">
+                                                edit
+                                            </span>
                                         </button>
                                     </td>
                                     <td className="align-middle">
-                                        <button type="button" className="btn btn-danger fw-bold"
+                                        <button type="button" className="btn btn-outline-danger fw-bold"
                                             onClick={() => openDeleteModal(product)}
-                                        >刪除</button>
+                                        >
+                                            <span className="material-icons fs-4">
+                                                delete
+                                            </span>
+                                        </button>
                                     </td>
                                 </tr>
                             )

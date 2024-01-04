@@ -6,16 +6,24 @@
 }
 
 //Navigation
+.nav-link-title {
+    white-space:nowrap;
+}
 .navigation {
     position: fixed;
     background: $primary;
-    width: 300px;
+    width: 60px;
     height: 100%;
     padding-left: 10px;
     transition: 0.5s;
+    @include md {
+        width: 200px;
+    }
     &.active {
-    width: 70px;
-    
+    width: 60px;
+.nav-link-title {
+white-space:nowrap;
+}
     }
 }
 
@@ -32,6 +40,7 @@
         }
 
     }
+    
 
 
     &-item:hover,
@@ -75,27 +84,38 @@
         color: $white;
     }
 
+    
+    .nav-link-icon {
+       // padding: 10px 0;
+    }
+
 }
 
 .admin-container {
-    max-width: calc(100% - 24px);
+  
+    max-width: 100%;
+    
 }
 main {
     position: absolute;
     top: 0;
-    left: 300px;
-    width: calc(100% - 300px);
+    left: 60px;
+    width: calc(100% - 60px);
     min-height: 100%;
     background-color: #fff;
     transition: 0.5s;
 
     &.active {
-        left: 70px;
-    width: calc(100% - 70px);
+        left: 60px;
+    width: calc(100% - 60px);
     }
 
     .toggle {
         cursor: pointer;
+    }
+    @include  md {
+        left: 200px;
+        width: calc(100% - 200px);
     }
 }
 

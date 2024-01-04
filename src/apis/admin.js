@@ -1,7 +1,7 @@
 import axios from "axios";
 
 
-const baseURL = "http://localhost:3000/api";
+const baseURL = `${import.meta.env.VITE_BASE_URL}`
 const apiHelper = axios.create({
     baseURL
 });

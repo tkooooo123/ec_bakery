@@ -257,13 +257,13 @@ function EditUserModal({ closeUserModal }) {
                                 </div>
                             </div>
                             <div className="modal-footer">
-                                <button type="button" className="btn btn-outline-dark"
+                                <button type="button" className="btn btn-outline-secondary fw-bold"
                                     onClick={() => {
                                         closeUserModal();
                                         handleRemove();
                                         setState(false);
                                     }}>關閉</button>
-                                <button type="submit" className={`form-submit-btn btn btn-primary ${(isDisabled || isErrored) ? 'disable' : ''}`}>儲存</button>
+                                <button type="submit" className={`form-submit-btn btn btn-primary fw-bold ${(isDisabled || isErrored) ? 'disable' : ''}`}>儲存</button>
                             </div>
                         </form>
                     </div>

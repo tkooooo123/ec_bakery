@@ -24,13 +24,13 @@ function DeleteModal({close, text, handleDelete, id, title}) {
               </div>
               <div className='modal-body'>刪除 {text}</div>
               <div className='modal-footer'>
-                <button type='button' className='btn btn-secondary'
+                <button type='button' className='btn btn-outline-secondary fw-bold'
                 onClick={close}>
                   取消
                 </button>
                 <button
                   type='button'
-                  className='btn btn-danger'
+                  className='btn btn-danger fw-bold'
                   onClick={() => handleDelete(id)}
                 >
                   確認刪除

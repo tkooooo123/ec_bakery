@@ -43,10 +43,10 @@ function AdminDashboard() {
                 <ul className="navigation-list mt-5">
                     <li className={`navigation-list-item ${location.hash.includes('home') ? 'active' : ''}`}>
                         <Link className="nav-link d-flex align-items-center py-2" to="/admin/home">
-                            <span className="material-icons fs-3 mx-3">
+                            <span className="material-icons nav-link-icon fs-3 mx-3">
                                 home
                             </span>
-                            <span className="">Home</span>
+                            <span className="nav-link-title ps-1 fw-bold">後台首頁</span>
                         </Link>
                     </li>
                     <li className={`navigation-list-item ${location.hash.includes('orders') ? 'active' : ''}`}>
@@ -54,7 +54,7 @@ function AdminDashboard() {
                             <span className="material-icons fs-3 mx-3">
                                 list_alt
                             </span>
-                            <span className="">Orders</span>
+                            <span className="nav-link-title ps-1 fw-bold">訂單管理</span>
                         </Link>
                     </li>
                     <li className="navigation-list-item">
@@ -62,7 +62,7 @@ function AdminDashboard() {
                             <span className="material-icons fs-3 mx-3">
                                 category
                             </span>
-                            <span className="">Category</span>
+                            <span className="nav-link-title ps-1 fw-bold">分類管理</span>
                         </Link>
                     </li>
                     <li className="navigation-list-item">
@@ -70,23 +70,15 @@ function AdminDashboard() {
                             <span className="material-icons fs-3 mx-3">
                                 view_in_ar
                             </span>
-                            <span className="">Product</span>
+                            <span className="nav-link-title ps-1 fw-bold">商品管理</span>
                         </Link>
                     </li>
                     <li className="navigation-list-item">
                         <Link className="nav-link d-flex align-items-center py-2" to="/admin/articles">
                             <span className="material-icons fs-3 mx-3">
-                                view_in_ar
+                            article
                             </span>
-                            <span className="">Articles</span>
-                        </Link>
-                    </li>
-                    <li className="navigation-list-item">
-                        <Link className="nav-link d-flex align-items-center py-2">
-                            <span className="material-icons fs-3 mx-3">
-                                settings
-                            </span>
-                            <span className="">Settings</span>
+                            <span className="nav-link-title ps-1 fw-bold">文章管理</span>
                         </Link>
                     </li>
                     <li className="navigation-list-item">
@@ -96,7 +88,7 @@ function AdminDashboard() {
                             <span className="material-icons fs-3 mx-3">
                                 logout
                             </span>
-                            <span className="">Logout</span>
+                            <span className="nav-link-title ps-1 fw-bold">登出</span>
                         </Link>
                     </li>
                 </ul>
@@ -110,11 +102,7 @@ function AdminDashboard() {
                     </span>
                 </header>
                 <div className="admin-container">
-                    <div className="row">
-                        <div className="col-4">1</div>
-                        <div className="col-4">2</div>
-                        <div className="col-4">3</div>
-                    </div>
+                    
                     <Outlet />
 
                 </div>

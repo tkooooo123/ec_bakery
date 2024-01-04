@@ -56,7 +56,7 @@ function Profile() {
                         </li>
                       
                     </ul>
-                    <button className="btn btn-primary"
+                    <button className="btn btn-primary fw-bold"
                             onClick={openUserModal}
                             >編輯</button>
 

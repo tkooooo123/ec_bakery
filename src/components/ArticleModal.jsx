@@ -313,7 +313,7 @@ function ArticleModal({ getArticles, closeArticleModal, tempArticle, type }) {
                                                 >
                                                 </Input>
                                             </div>
-                                            <button type="button" className={`btn btn-outline-dark w-25  ${tempTag.trim().length < 1 ? 'disabled' : ''}`}
+                                            <button type="button" className={`btn btn-outline-primary w-25 ms-1 fw-bold ${tempTag.trim().length < 1 ? 'disabled' : ''}`}
                                                 onClick={addClick}
                                             >新增</button>
                                         </div>
@@ -392,15 +392,15 @@ function ArticleModal({ getArticles, closeArticleModal, tempArticle, type }) {
                             </div>
                         </div>
                         <div className="modal-footer">
-                            <button type="button" className="btn btn-secondary" data-bs-dismiss="modal"
+                            <button type="button" className="btn btn-outline-secondary fw-bold" data-bs-dismiss="modal"
                                 onClick={() => {
                                     closeArticleModal();
                                     handleRemove();
                                     setState(false);
                                
                                 }}
-                            >Close</button>
-                            <button type="submit" className={`form-submit-btn btn btn-primary ${(isDisabled || isErrored) ? 'disable' : ''}`} >儲存</button>
+                            >關閉</button>
+                            <button type="submit" className={`form-submit-btn btn btn-primary fw-bold ${(isDisabled || isErrored) ? 'disable' : ''}`} >儲存</button>
                         </div>
                     </form>
                 </div>

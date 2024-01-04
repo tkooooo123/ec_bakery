@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const baseURL = "https://lit-lowlands-54861.herokuapp.com/api";
+const baseURL = `${import.meta.env.VITE_BASE_URL}`
 const apiHelper = axios.create({
     baseURL
 });

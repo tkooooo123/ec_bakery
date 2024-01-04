@@ -59,20 +59,21 @@ function OrderModal({ selectedOrder, closeOrderModal, isAdmin }) {
                                             </li>
                                             <li className="d-flex">
                                                 <p className="w-25">處理狀態</p>
-                                                {!selectedOrder.status && (
+                                                
+                                                {!!(Number(selectedOrder.shipping_status) === 0) && (
                                                     <p className="w-75 fw-bold">未確認</p>
                                                 )}
-                                                {!!(selectedOrder.status === 0) && (
-                                                    <p className="w-75 fw-bold">未確認</p>
-                                                )}
-                                                {!!(selectedOrder.status === 1) && (
+                                                {!!(Number(selectedOrder.shipping_status) === 1) && (
                                                     <p className="w-75 fw-bold">已確認</p>
                                                 )}
-                                                {!!(selectedOrder.status === 2) && (
-                                                    <p className="w-75 fw-bold">處理中</p>
+                                                {!!(Number(selectedOrder.shipping_status) === 2) && (
+                                                    <p className="w-75 fw-bold">配送中</p>
                                                 )}
-                                                {!!(selectedOrder.status === 3) && (
+                                                {!!(Number(selectedOrder.shipping_status) === 3) && (
                                                     <p className="w-75 fw-bold">已送達</p>
+                                                )}
+                                                {!!(Number(selectedOrder.shipping_status) === -1) && (
+                                                    <p className="w-75 fw-bold">已取消</p>
                                                 )}
                                             </li>
                                         </ul>
@@ -112,7 +113,16 @@ function OrderModal({ selectedOrder, closeOrderModal, isAdmin }) {
                                             </li>
                                             <li className="d-flex align-items-center mt-2">
                                                 <p>付款狀態 / </p>
-                                                <p className={`${Number(selectedOrder.payment_status) ? 'bg-success' : 'bg-danger'} rounded fw-bold text-white p-1 mx-1`}>{Number(selectedOrder.payment_status) ? '已付款' : '未付款'}</p>
+                                                {!!(Number(selectedOrder.payment_status) === -1) && (
+                                                    <p className="mx-1"> 已取消</p>
+                                                )}
+                                                {!!(Number(selectedOrder.payment_status) === 0) && (
+                                                    <p className="bg-danger rounded fw-bold text-white p-1 mx-1"> 未付款</p>
+                                                )}
+                                                {!!(Number(selectedOrder.payment_status) === 1) && (
+                                                    <p className="bg-success rounded fw-bold text-white p-1 mx-1"> 已付款</p>
+                                                )}
+                                               
                                             </li>
                                         </ul>
                                     </div>
@@ -151,14 +161,14 @@ function OrderModal({ selectedOrder, closeOrderModal, isAdmin }) {
                                         <input type="text" name="TradeInfo" value={tradeInfo.TradeInfo || ''} onChange={() => {}} hidden />
                                         <input type="text" name="TradeSha" value={tradeInfo.TradeSha || ''} onChange={() => {}} hidden />
                                         <input type="text" name="Version" value={Number(tradeInfo.version) || ''} onChange={() => {}} hidden/>
-                                        <button type="submit" className={`btn btn-dark rounded-0 px-5 ${Number(selectedOrder.payment_status) ? 'd-none' : ''}`}
+                                        <button type="submit" className={`btn btn-primary fw-bold px-5 ${Number(selectedOrder.payment_status) ? 'd-none' : ''}`}
                                     >前往付款</button>
                                     </form>
                                     
                                 </>
 
                             )}
-                            <button type="button" className="btn btn-outline-danger" onClick={() => {
+                            <button type="button" className="btn btn-outline-secondary fw-bold" onClick={() => {
                                 closeOrderModal();
                             }}>關閉</button>
 

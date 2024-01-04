@@ -88,7 +88,7 @@ function AdminCategories() {
                 <table className="table" >
                     <thead>
                         <tr>
-                            <th>排序</th>
+                            <th className="d-none d-md-table-cell">排序</th>
                             <th>圖片</th>
                             <th>名稱</th>
                             <th>編輯</th>
@@ -99,24 +99,32 @@ function AdminCategories() {
                         {categories?.map((category, i) => {
                             return (
                                 <tr key={category.id}>
-                                    <td className="align-middle">{i + 1}</td>
+                                    <td className="align-middle d-none d-md-table-cell">{i + 1}</td>
                                     <td>
                                         <img src={category.image} alt={category.name} style={{ width: '100px', height: '100px', objectFit: 'cover' }} />
                                     </td>
                                     <td className="align-middle">{category.name}</td>
                                     <td className="align-middle">
-                                        <button className="btn btn-outline-primary"
+                                        <button className="btn btn-primary"
                                             onClick={() => {
                                                 openCategoryModal('edit', category)
                                             }}
-                                        >編輯</button>
+                                        >
+                                            <span className="material-icons fs-4">
+                                                edit
+                                            </span>
+                                        </button>
                                     </td>
                                     <td className="align-middle">
-                                        <button className="btn btn-danger"
+                                        <button className="btn btn-outline-danger"
                                             onClick={() => {
                                                 openDeleteModal(category)
                                             }}
-                                        >刪除</button>
+                                        >
+                                            <span className="material-icons fs-4">
+                                                delete
+                                            </span>
+                                        </button>
                                     </td>
                                 </tr>
 

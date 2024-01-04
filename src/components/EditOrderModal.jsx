@@ -79,7 +79,7 @@ function EditOrderModal({ selectedOrder, close, getOrders }) {
                         </div>
                     </div>
                     <div className='modal-footer'>
-                        <button type='button' className='btn btn-secondary' onClick={close}>
+                        <button type='button' className='btn btn-outline-secondary fw-bold' onClick={close}>
                             取消
                         </button>
                         <button
