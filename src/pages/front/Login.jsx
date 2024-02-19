@@ -42,7 +42,7 @@ function Login() {
     })
     return (
         <>
-            <div className="container pt-66 mh">
+            <div className="container pt-66 mh login">
                 <div className="row my-5">
                     <div className="col-md-6 col-sm-7 mx-auto">
                         <h1 className="fw-bold  text-center" >登入</h1>
@@ -90,7 +90,7 @@ function Login() {
 
                             <button type="submit" className="btn btn-primary w-100 mt-3 mb-1 fw-bold">登入</button>
                         </form>
-                        <Link to="/register" className="fw-bold text-black nav-link">前往註冊</Link>
+                        <Link to="/register" className="fw-bold ">前往註冊</Link>
                     </div>
                 </div>
             </div>

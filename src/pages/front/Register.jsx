@@ -29,7 +29,7 @@ function Register() {
     }
     return (
         <>
-            <div className="container pt-66">
+            <div className="container pt-66 register">
 
                 <div className="row">
                     <div className="col-md-6 col-sm-7 mx-auto my-5">
@@ -121,7 +121,7 @@ function Register() {
                             <button type="submit" className="btn btn-primary w-100 mt-3 mb-1 fw-bold ">註冊</button>
                             
                         </form>
-                        <Link to="/login" className="fw-bold text-black">已經有帳號了？前往登入</Link>
+                        <Link to="/login" className="fw-bold">已經有帳號了？前往登入</Link>
                     </div>
                 </div>
             </div>
