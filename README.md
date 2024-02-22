@@ -42,6 +42,23 @@ Password: 12345678
 到期日：任意未到期年月
 驗證碼：任意3碼
 ```
+
+## 使用工具
+* node ^16.15.0
+* react ^18.2.0
+* react-router-dom ^6.17.0
+* react-hook-form ^7.47.0
+* aos ^2.3.4
+* axios ^1.5.1
+* bootstrap ^5.3.2
+* fslightbox-react ^1.7.6
+* gsap ^3.12.4
+* jquery ^3.7.1
+* sass ^1.69.4
+* sweetalert2 ^11.6.4
+* swiper ^11.0.4
+
+
 ## 安裝流程
 1. 開啟終端機，執行以下指令：
  ```
