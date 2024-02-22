@@ -47,7 +47,8 @@ function ProductDetail() {
                 page: 1,
                 categoryId: category.id
             })
-            setProducts([...res.data.products])
+            const relativeProducts = res.data.products.filter((item) => item.id !== product.id)
+            setProducts([...relativeProducts])
             setIsLoading(false);
         } catch (error) {
             setIsLoading(false); 
