@@ -6,7 +6,8 @@ import AuthorizationApi from '../apis/authorization';
 import AdminApi from '../apis/admin';
 import { MessageContext, handleErrorMessage, postSuccessMessage } from "../store/messageStore";
 import Loading from './Loading';
-import { AuthContext } from '../store/AuthContext';
+import { useSelector } from 'react-redux';
+
 
 
 function EditUserModal({ closeUserModal }) {
@@ -17,10 +18,8 @@ function EditUserModal({ closeUserModal }) {
     const [isLoading, setIsLoading] = useState(false);
     const [isDisabled, setIsdisabled] = useState(true);
     const [isErrored, setIsErrored] = useState(false);
-    const { userData } = useContext(AuthContext).user;
-    const { checkTokenIsValid } = useContext(AuthContext);
+    const userData = useSelector(state => state.user)
    
-
     const {
         register,
         handleSubmit,
@@ -68,7 +67,6 @@ function EditUserModal({ closeUserModal }) {
             postSuccessMessage(dispatch, res.data);
             closeUserModal();
             handleRemove();
-            checkTokenIsValid();
             setIsLoading(false); 
         } catch (error) {
             setIsLoading(false);

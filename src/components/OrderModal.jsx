@@ -2,24 +2,25 @@ import { MessageContext, handleErrorMessage } from "../store/messageStore";
 import { useContext, useEffect, useState } from "react";
 import OrderApi from '../apis/order';
 import propTypes from 'prop-types';
-import { AuthContext } from '../store/AuthContext';
+import { useSelector } from "react-redux";
 
 
 function OrderModal({ selectedOrder, closeOrderModal, isAdmin }) {
     const [, dispatch] = useContext(MessageContext);
     const [tradeInfo, setTradeInfo] = useState({});
     const order = selectedOrder;
-    const { token } = useContext(AuthContext).user;
+    const { token } = useSelector(state => state.user)
     const getTradeInfo = async () => {
         try {
             if(isAdmin) {
                 return
+            } else if(order.id) {
+                const res = await OrderApi.getPayment({
+                    orderId: order.id
+                })
+    
+                setTradeInfo(res.data.tradeInfo);
             }
-            const res = await OrderApi.getPayment({
-                orderId: order.id
-            })
-
-            setTradeInfo(res.data.tradeInfo);
         } catch (error) {
             handleErrorMessage(dispatch, error)
             console.log(error)

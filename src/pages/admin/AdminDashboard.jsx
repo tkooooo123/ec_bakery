@@ -1,15 +1,18 @@
 import { Link, Outlet, useNavigate } from "react-router-dom";
 import $ from "jquery";
-import { useEffect, useContext } from "react";
-import { AuthContext } from '../../store/AuthContext';
+import { useEffect } from "react";
 import Message from "../../components/Message";
+import { useDispatch } from "react-redux";
+import { removeUser } from "../../slice/userSlice";
 
 function AdminDashboard() {
-
-    const auth = useContext(AuthContext);
-    const { logout } = auth;
+    const userDispatch = useDispatch();
     const navigate= useNavigate();
 
+    const logout = () => {
+        localStorage.removeItem('token');
+        userDispatch(removeUser)
+    }
 
     const activeLink = () => {
         $('.navigation li').on('click', function () {

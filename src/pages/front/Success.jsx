@@ -1,20 +1,19 @@
 import { useContext, useEffect, useState } from 'react';
 import Stepper from '../../components/Stepper';
-import { useParams, Link, useNavigate } from 'react-router-dom';
+import { useParams, Link, useOutletContext } from 'react-router-dom';
 import OrderApi from '../../apis/order';
-import { MessageContext, handleErrorMessage, toastErrorMessage } from '../../store/messageStore';
+import { MessageContext, handleErrorMessage } from '../../store/messageStore';
 import Loading from '../../components/Loading';
-import { AuthContext } from '../../store/AuthContext';
+import { useSelector } from 'react-redux';
 
 function Success() {
     const { orderId } = useParams();
     const [orderData, setOrderData] = useState({});
     const [tradeInfo, setTradeInfo] = useState({});
     const [, dispatch] = useContext(MessageContext);
-    const [isLoading, setIsLoading] = useState(false);
-    const auth = useContext(AuthContext);
-    const { token } = auth.user;
-    const navigate = useNavigate();
+    const [isLoading, setIsLoading] = useState(true);
+    const { isAuthenticated } = useSelector(state => state.user);
+    const { checkTokenIsValid } = useOutletContext();
     const getOrder = async () => {
         try {
             setIsLoading(true);
@@ -31,13 +30,14 @@ function Success() {
 
 
     useEffect(() => {
-        if (!token) {
-            navigate('/login');
-            toastErrorMessage(dispatch, { message: '無法取得權限，請先登入！' })
-        } else {
+         if(!isAuthenticated) {
+            (async function refreshView() {
+                await checkTokenIsValid();
+            }())
+            return;
+        } 
             getOrder();
-        }
-    }, [])
+    }, [isAuthenticated])
     return (
         <>
             <Loading isLoading={isLoading} />

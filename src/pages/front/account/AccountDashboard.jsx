@@ -1,24 +1,27 @@
-import { useContext, useEffect, useState } from "react";
-import { Link, Outlet } from "react-router-dom";
-import { AuthContext } from '../../../store/AuthContext';
-import { useNavigate } from 'react-router-dom';
-import { MessageContext, toastErrorMessage } from "../../../store/messageStore";
+import { useEffect, useState } from "react";
+import { Link, Outlet, useOutletContext } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { useLocation } from 'react-router-dom';
 
 function AccountDashboard() {
     const [text, setText] = useState('帳戶中心');
-    const { token } = useContext(AuthContext).user;
-    const [, dispatch] = useContext(MessageContext);
-    const navigate = useNavigate();
+    const { checkTokenIsValid } = useOutletContext();
+    const {  isAuthenticated } = useSelector(state => state.user);
+    const location = useLocation();
     const handleClick = (e) => {
         setText(e.target.innerText)
     }
 
     useEffect(() => {
-        if(!token) {
-            navigate('/login');
-            toastErrorMessage(dispatch, { message: '無法取得權限，請先登入！'});
+        if(!isAuthenticated) {
+            (async function refreshView() {
+                await checkTokenIsValid();
+            }())
+            return;
+        } else if(location.pathname.includes('order')) {
+            setText('我的訂單')
          }
-    }, [])
+    }, [isAuthenticated])
 
     return (
         <>
@@ -26,7 +29,7 @@ function AccountDashboard() {
 
                 <div className="row">
                     <div className="mt-3 d-flex justify-content-between align-items-center">
-                        <h3 className="fw-bold">{text}</h3>
+                        <h1 className="fw-bold">{text}</h1>
                         <p className="text-end"><Link className="text-black" to="/">首頁</Link> / {text}</p>
                     </div>
                     <div className="col-md-3">

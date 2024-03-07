@@ -7,11 +7,11 @@ import { Input } from '../../components/FormElements';
 import { useForm } from 'react-hook-form';
 import { MessageContext, handleErrorMessage, postSuccessMessage, authErrorMessage } from '../../store/messageStore';
 import Loading from '../../components/Loading';
-import { AuthContext } from '../../store/AuthContext';
 import Aos from "aos";
 import 'aos/dist/aos.css';
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { useSelector } from 'react-redux';
 
 
 function Home() {
@@ -21,8 +21,7 @@ function Home() {
     const [, dispatch] = useContext(MessageContext);
     const [isLoading, setIsLoading] = useState(false);
     const { getCart } = useOutletContext();
-    const auth = useContext(AuthContext);
-    const { isAuthenticated } = auth.user;
+    const { isAuthenticated } = useSelector(state => state.user);
 
     const {
         register,
@@ -133,7 +132,7 @@ function Home() {
             </div>
             <div className="container">
                 <div className="row about" id="about">
-                    <h2 className="about-title fw-bold text-primary mt-3" data-aos="fade-down" data-aos-delay="100">About Us</h2>
+                    <h2 className="about-title fw-bold text-primary mt-3" data-aos="fade-down" data-aos-delay="100">ABOUT US</h2>
                     <div className="col-md-5 my-auto" id="about-intro">
                         <h3 className="fw-bold fs-1 text-center mt-md-0 mt-3" >營養 健康 無負擔</h3>
                         <p className="about-content text-center fs-3 mt-3">

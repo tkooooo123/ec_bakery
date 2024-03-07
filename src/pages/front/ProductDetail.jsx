@@ -5,8 +5,8 @@ import CartApi from '../../apis/cart';
 import FsLightbox from "fslightbox-react";
 import ProductSwiper from '../../components/ProductSwiper';
 import Loading from '../../components/Loading';
-import { AuthContext } from '../../store/AuthContext';
 import { MessageContext, handleErrorMessage, postSuccessMessage, authErrorMessage } from "../../store/messageStore";
+import { useSelector } from 'react-redux';
 
 function ProductDetail() {
 
@@ -21,8 +21,7 @@ function ProductDetail() {
     const [quantity, setQuantity] = useState(1);
     const { getCart } = useOutletContext();
     const [, dispatch] = useContext(MessageContext);
-    const auth = useContext(AuthContext);
-    const { isAuthenticated } = auth.user;
+    const { isAuthenticated } = useSelector(state => state.user);
 
     const fetchProduct = async () => {
         try {

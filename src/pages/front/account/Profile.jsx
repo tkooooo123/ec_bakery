@@ -1,16 +1,14 @@
-import { useNavigate } from 'react-router-dom';
-import { AuthContext } from '../../../store/AuthContext';
-import { useContext, useEffect, useRef } from 'react';
+import { useSelector } from 'react-redux';
+import { useEffect, useRef, useState } from 'react';
 import { Modal } from "bootstrap";
 import EditUserModal from '../../../components/EditUserModal';
-import { MessageContext, toastErrorMessage } from '../../../store/messageStore';
+import Loading from '../../../components/Loading';
 
 
 function Profile() {
-    const { userData, token } = useContext(AuthContext).user;
-    const navigate = useNavigate();
+    const { avatar, name, email, isAuthenticated } = useSelector(state => state.user);
+    const [isLoading, setIsLoading] = useState(true);
     const userModal = useRef(null);
-    const [,dispatch] = useContext(MessageContext);
 
     const openUserModal = () => {
         userModal.current.show();
@@ -24,44 +22,44 @@ function Profile() {
         userModal.current = new Modal('#userModal', {
             backdrop: 'static'
         });
-        if(!token) {
-            navigate('/login');
-            toastErrorMessage(dispatch, { message: '無法取得權限，請先登入！'});
+        if (isAuthenticated) {
+            setIsLoading(false)
         }
-    }, [userData])
+    }, [isAuthenticated])
 
     return (
         <>
-        <EditUserModal closeUserModal={closeUserModal}/>
-            <h1 className="mt-3">Profile</h1>
+            <Loading isLoading={isLoading} />
+            <EditUserModal closeUserModal={closeUserModal} />
+            <h3 className="mt-3 fw-bold">Profile</h3>
             <div className="row mb-5">
                 <hr className="mx-3 mb-3" />
                 <div className="col-md-6 text-center">
-                    <img  src={userData.avatar} alt="個人頭像" style={{height: '250px', borderRadius: '50%'}}/>
+                    <img src={avatar} alt="個人頭像" style={{ height: '250px', aspectRatio: '1', objectFit: 'cover', borderRadius: '50%' }} />
                 </div>
                 <div className="col-md-6">
                     <ul>
                         <li className="d-flex justify-content-between p-2">
                             <div>
                                 <h5 className="fw-bold">姓名</h5>
-                                <span>{userData.name}</span>
+                                <span>{name}</span>
                             </div>
                         </li>
-                       
+
                         <li className="d-flex justify-content-between p-2">
                             <div>
                                 <h5 className="fw-bold">Email</h5>
-                                <span>{userData.email}</span>
+                                <span>{email}</span>
                             </div>
                         </li>
-                      
+
                     </ul>
                     <button className="btn btn-primary fw-bold"
-                            onClick={openUserModal}
-                            >編輯</button>
+                        onClick={openUserModal}
+                    >編輯</button>
 
                 </div>
-              
+
             </div>
         </>
     )

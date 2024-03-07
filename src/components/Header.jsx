@@ -1,15 +1,15 @@
 import { Link, NavLink, useLocation } from "react-router-dom";
-import { useContext, useEffect, useRef, useState } from "react";
-import { AuthContext } from '../store/AuthContext';
+import { memo, useEffect, useRef, useState } from "react";
 import propTypes from 'prop-types';
 import { Collapse } from "bootstrap";
 import $ from 'jquery';
+import { useDispatch, useSelector } from "react-redux";
+import { removeUser } from "../slice/userSlice";
 
 
-function Header({ cartData }) {
-
-    const auth = useContext(AuthContext);
-    const { user, logout } = auth;
+const Header = memo(function Header({ cartData }) {
+    const user = useSelector(state => state.user)
+    const userDispatch = useDispatch();
     const { isAuthenticated } = user;
     const [isToggled, setIsToggled] = useState(false);
     const navCollapse = useRef(null);
@@ -18,6 +18,10 @@ function Header({ cartData }) {
     const [keyword, setKeyword] = useState('');
     const [keywords, setKeywords] = useState([]);
 
+    const logout = () => {
+        localStorage.removeItem('token');
+        userDispatch(removeUser())
+    }
     const openCollapse = () => {
         navCollapse.current.show();
         setIsToggled(true);
@@ -60,7 +64,7 @@ function Header({ cartData }) {
     useEffect(() => {
         setKeyword('');
         closeCollapse();
-        closeSearchCollapse();  
+        closeSearchCollapse();
     }, [location])
 
     return (
@@ -86,7 +90,7 @@ function Header({ cartData }) {
                     </NavLink>
                     <div className="collapse navbar-collapse" id="navbarNav">
                         <ul className="navbar-nav me-auto mb-2 mb-lg-0 ms-3 ms-lg-0 h-100">
-                        <li className="nav-item fw-bold fs-5">
+                            <li className="nav-item fw-bold fs-5">
                                 <NavLink to="/brandstory"
                                     onClick={closeCollapse}
                                 >品牌故事</NavLink>
@@ -199,7 +203,7 @@ function Header({ cartData }) {
             </nav>
         </>
     )
-}
+})
 
 export default Header;
 

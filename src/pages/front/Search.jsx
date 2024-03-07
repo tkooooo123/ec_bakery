@@ -3,9 +3,9 @@ import { Link, useSearchParams, useOutletContext, useNavigate } from 'react-rout
 import ProductsApi from '../../apis/products';
 import CartApi from '../../apis/cart';
 import { MessageContext, handleErrorMessage, postSuccessMessage, authErrorMessage } from "../../store/messageStore";
-import { AuthContext } from '../../store/AuthContext';
 import Pagination from '../../components/Pagination';
 import Loading from '../../components/Loading';
+import { useSelector } from 'react-redux';
 function Search() {
     const { getCart } = useOutletContext();
     
@@ -14,8 +14,8 @@ function Search() {
     const [searchParams] = useSearchParams();
     const [isLoading, setIsLoading] = useState(true);
     const [, dispatch] = useContext(MessageContext);
-    const auth = useContext(AuthContext);
-    const { isAuthenticated } = auth.user;
+
+    const { isAuthenticated } = useSelector(state => state.user);
     const navigate = useNavigate();
 
     const keyword = searchParams.get('keyword');

@@ -1,26 +1,25 @@
 import Stepper from '../../components/Stepper'
 import { useEffect, useState, useContext } from 'react';
 import { Link, useOutletContext } from 'react-router-dom';
-import { MessageContext, handleErrorMessage, toastErrorMessage } from '../../store/messageStore';
+import { MessageContext, handleErrorMessage } from '../../store/messageStore';
 import CartApi from '../../apis/cart';
 import OrderApi from '../../apis/order';
 import { useForm, useWatch } from 'react-hook-form';
 import { Input, Textarea } from '../../components/FormElements';
-import { AuthContext } from '../../store/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import Loading from '../../components/Loading';
+import { useSelector } from 'react-redux';
 function Checkout() {
     const [stepper] = useState(2);
     const [cart, setCart] = useState([]);
     const [total, setTotal] = useState('');
     const [, dispatch] = useContext(MessageContext);
-    const auth = useContext(AuthContext);
-    const { userId, token } = auth.user
+    const { userId, isAuthenticated } = useSelector(state => state.user);
     const navigate = useNavigate();
-    const [isLoading, setIsLoading] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
     const [isDisabled, setIsdisabled] = useState(true);
     const [isErrored, setIsErrored] = useState(false);
-    const { getCart } = useOutletContext();
+    const { getCart, checkTokenIsValid } = useOutletContext();
 
     const {
         register,
@@ -78,13 +77,14 @@ function Checkout() {
 
 
     useEffect(() => {
-        if(!token) {
-            navigate('/login');
-            toastErrorMessage(dispatch, { message: '無法取得權限，請先登入！'})
-        } else {
-            fetchCart();
+        if(!isAuthenticated) {
+            (async function refreshView() {
+                await checkTokenIsValid();
+            }())
+            return;
         }
-    }, []);
+        fetchCart();
+    }, [isAuthenticated]);
 
     useEffect(() => {
         const arr = Object.values(watchForm).map((item) => {

@@ -3,13 +3,14 @@ import { useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
 import AuthorizationApi from '../../apis/authorization';
 import { useContext, useEffect, } from 'react';
-import { AuthContext } from '../../store/AuthContext';
-
+import { useDispatch, useSelector } from 'react-redux';
 import { MessageContext, handleErrorMessage } from "../../store/messageStore";
+import { createUserLogin } from '../../slice/userSlice';
 function Login() {
 
     const [, dispatch] = useContext(MessageContext);
-    const { token } = useContext(AuthContext).user
+    const { isAuthorization } = useSelector(state => state.user)
+    const userdispatch = useDispatch();
     const {
         register,
         handleSubmit,
@@ -25,6 +26,7 @@ function Login() {
             if (res.status === 200) {
                 //儲存token
                 localStorage.setItem("token", res.data.token);
+                userdispatch(createUserLogin(res.data))
                 if (res.data.user.role === 'admin') {
                     navigate('/admin/home');
                 } else {
@@ -36,10 +38,10 @@ function Login() {
         }
     }
     useEffect(() => {
-        if(token) {
+        if(isAuthorization) {
             navigate('/')
         }
-    })
+    }, [isAuthorization])
     return (
         <>
             <div className="container pt-66 mh login">
