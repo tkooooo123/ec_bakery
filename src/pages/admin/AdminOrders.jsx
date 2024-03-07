@@ -6,15 +6,19 @@ import OrderModal from '../../components/OrderModal';
 import EditOrderModal from "../../components/EditOrderModal";
 import DeleteModal from "../../components/DeleteModal";
 import Loading from "../../components/Loading";
+import { useSelector } from "react-redux";
+import { useOutletContext } from "react-router-dom";
 
 function AdminOrders() {
     const [orders, setOrders] = useState([]);
     const [, dispatch] = useContext(MessageContext);
     const [selectedOrder, setSelectedOrder] = useState({});
+    const { isAuthenticated } = useSelector(state => state.user)
     const orderModal = useRef(null);
     const editModal = useRef(null);
     const deleteModal = useRef(null);
     const [isLoading, setIsLoading] = useState(true);
+    const { checkTokenIsValid } = useOutletContext();
 
     const getOrders = async () => {
         try {
@@ -85,8 +89,16 @@ function AdminOrders() {
         deleteModal.current = new Modal('#deleteModal', {
             backdrop: 'static'
         });
-        getOrders();
-    }, [])
+
+        if(!isAuthenticated) {
+            (async function refreshView() {
+                await checkTokenIsValid();
+            }())
+            return;
+        }
+            getOrders();
+        
+    }, [isAuthenticated])
     return (
         <>
             <Loading isLoading={isLoading} />

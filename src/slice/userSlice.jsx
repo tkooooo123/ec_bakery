@@ -8,25 +8,27 @@ export const userSlice = createSlice({
         userId: '',
         name: '',
         email: '',
-        avatar: ''
+        avatar: '',
+        role: '',
     },
     reducers: {
         createUserLogin(state, action) {
             state.isAuthenticated = true;
             state.token = action.payload.token;
-            state.userId = action.payload.user.userId
+            state.userId = action.payload.user.userId;
             state.name = action.payload.user.name;
             state.email = action.payload.user.email;
-            state.avatar = action.payload.user.avatar
+            state.avatar = action.payload.user.avatar;
+            state.role = action.payload.user.role;
         },
         getCurrentUser(state, action) {
             state.isAuthenticated = true;
             state.token = action.payload.token;
-            state.userId = action.payload.id
+            state.userId = action.payload.id;
             state.name = action.payload.name;
             state.email = action.payload.email;
-            state.avatar = action.payload.avatar
-            console.log(5)
+            state.avatar = action.payload.avatar;
+            state.role = action.payload.role;
         },
         removeUser() {
             return {
@@ -35,7 +37,8 @@ export const userSlice = createSlice({
                 userId: '',
                 name: '',
                 email: '',
-                avatar: ''
+                avatar: '',
+                role: ''
             }
         }
     }

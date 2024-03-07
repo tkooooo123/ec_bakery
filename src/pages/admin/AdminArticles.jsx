@@ -5,15 +5,19 @@ import { MessageContext, handleErrorMessage, postSuccessMessage } from "../../st
 import ArticleModal from "../../components/ArticleModal";
 import DeleteModal from "../../components/DeleteModal";
 import AdminApi from "../../apis/admin"
+import { useSelector } from "react-redux";
+import { useOutletContext } from "react-router-dom";
 
 function AdminArticles() {
     const [articles, setArticles] = useState([]);
-    const [isLoading, setIsLoading] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
     const [type, setType] = useState('create');
     const [selectedArticle, setSelectedArticle] = useState({});
     const [, dispatch] = useContext(MessageContext);
     const articleModal = useRef(null);
     const deleteModal = useRef(null);
+    const { isAuthenticated } = useSelector(state => state.user);
+    const { checkTokenIsValid } = useOutletContext();
 
     const getArticles = async () => {
         try {
@@ -72,10 +76,15 @@ function AdminArticles() {
         deleteModal.current = new Modal('#deleteModal', {
             backdrop: 'static'
         });
+        if(!isAuthenticated) {
+            (async function refreshView() {
+                await checkTokenIsValid();
+            }())
+            return;
+        }
+        
         getArticles();
-
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [isAuthenticated]);
 
     return (
         <>

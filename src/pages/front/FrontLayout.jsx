@@ -15,7 +15,7 @@ const FrontLayout = memo(function FrontLayout() {
     const authToken = localStorage.getItem('token');
     const [, dispatch] = useContext(MessageContext);
     const currentUser = useSelector(state => state.user);
-    const { isAuthenticated } = currentUser;
+    const { isAuthenticated, role } = currentUser;
     const userDispatch = useDispatch();
     const navigate = useNavigate();
 
@@ -52,6 +52,9 @@ const FrontLayout = memo(function FrontLayout() {
         }
     }
     useEffect(() => {
+        if(role === 'admin') {
+            navigate('/admin');
+        }
         if(!isAuthenticated) {
             (async function chechUserState() {
                 if(authToken) {

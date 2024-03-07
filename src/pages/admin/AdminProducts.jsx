@@ -6,6 +6,8 @@ import ProductModal from "../../components/ProductModal";
 import DeleteModal from "../../components/DeleteModal";
 import Pagination from "../../components/Pagination";
 import Loading from "../../components/Loading";
+import { useSelector } from "react-redux";
+import { useOutletContext } from "react-router-dom";
 
 function AdminProducts() {
     const [products, setProducts] = useState([]);
@@ -17,7 +19,8 @@ function AdminProducts() {
     const [isLoading, setIsLoading] = useState(true);
     const productModal = useRef(null);
     const deleteModal = useRef(null);
-
+    const { isAuthenticated } = useSelector(state => state.user);
+    const { checkTokenIsValid } = useOutletContext();
 
     const getProducts = async (page) => {
         try {
@@ -82,20 +85,29 @@ function AdminProducts() {
         deleteModal.current = new Modal('#deleteModal', {
             backdrop: 'static'
         });
-        getProducts();
-        getCategories();
-    }, [])
+        if(!isAuthenticated) {
+            (async function refreshView() {
+                await checkTokenIsValid();
+            }())
+            return;
+        }
+        
+            getProducts();
+            getCategories();
+        
+
+    }, [isAuthenticated])
 
     return (
         <>
-        <Loading isLoading={isLoading} />
+            <Loading isLoading={isLoading} />
             <ProductModal initialProduct={selecetdProduct} closeProductModal={closeProductModal} getProducts={getProducts} type={type} categories={categories} />
             <DeleteModal close={closeDeleteModal} handleDelete={handleDelete} id={selecetdProduct.id} text={`名為「${selecetdProduct.name}」之產品？`} title={'產品'} />
             <div className="admin-products p-3 m-3">
                 <div className="d-flex justify-content-between">
                     <h3 className="text-primary fw-bold my-2">產品列表</h3>
                     <button className="btn btn-primary fw-bold"
-                    onClick={() => openProductModal('create', {})}
+                        onClick={() => openProductModal('create', {})}
                     >新增產品</button>
                 </div>
 
@@ -116,7 +128,7 @@ function AdminProducts() {
                         {products?.map((product) => {
                             return (
                                 <tr key={product.id}>
-                                    <td className="align-middle"><img src={product.image} alt={product.name} style={{ width: '100px', height: '100px',objectFit: 'contain' }} /></td>
+                                    <td className="align-middle"><img src={product.image} alt={product.name} style={{ width: '100px', height: '100px', objectFit: 'contain' }} /></td>
                                     <td className="align-middle">{product.name}</td>
                                     <td className="align-middle d-none d-md-table-cell">{product.Category.name}</td>
                                     <td className="align-middle d-none d-md-table-cell">NT$ {product.price}</td>
@@ -124,7 +136,7 @@ function AdminProducts() {
                                     <td className="align-middle d-none d-md-table-cell">{product.isEnabled ? '已啟用' : '未啟用'}</td>
                                     <td className="align-middle">
                                         <button type="button" className="btn btn-primary"
-                                        onClick={() => openProductModal('edit', product)}
+                                            onClick={() => openProductModal('edit', product)}
                                         >
                                             <span className="material-icons fs-4">
                                                 edit
@@ -146,7 +158,7 @@ function AdminProducts() {
                     </tbody>
                 </table>
                 <div className="d-flex justify-content-center">
-                    <Pagination pagination={pagination} changePage={getProducts}/>
+                    <Pagination pagination={pagination} changePage={getProducts} />
                 </div>
             </div>
         </>

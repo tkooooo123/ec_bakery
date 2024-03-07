@@ -6,6 +6,8 @@ import CategoryModal from '../../components/CategoryModal';
 import { MessageContext, handleErrorMessage, postSuccessMessage } from '../../store/messageStore';
 import { useContext } from 'react';
 import Loading from '../../components/Loading';
+import { useSelector } from 'react-redux';
+import { useOutletContext } from 'react-router-dom';
 
 function AdminCategories() {
     const [categories, setCategories] = useState([]);
@@ -15,6 +17,8 @@ function AdminCategories() {
     const [isLoading, setIsLoading] = useState(true);
     const categoryModal = useRef(null);
     const deleteModal = useRef(null);
+    const { isAuthenticated } = useSelector(state => state.user);
+    const { checkTokenIsValid } = useOutletContext();
 
     const getCategories = async () => {
         try {
@@ -69,9 +73,17 @@ function AdminCategories() {
         deleteModal.current = new Modal('#deleteModal', {
             backdrop: 'static'
         });
-        getCategories();
+        if(!isAuthenticated) {
+            (async function refreshView() {
+                await checkTokenIsValid();
+            }())
+            return;
+        }
+            getCategories();
+        
+        
 
-    }, [])
+    }, [isAuthenticated])
 
     return (
         <>

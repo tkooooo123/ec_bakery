@@ -1,17 +1,23 @@
-import { Link, Outlet, useNavigate } from "react-router-dom";
+import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
 import $ from "jquery";
-import { useEffect } from "react";
+import { useEffect, useContext } from "react";
 import Message from "../../components/Message";
 import { useDispatch } from "react-redux";
 import { removeUser } from "../../slice/userSlice";
+import { MessageContext, handleErrorMessage, toastErrorMessage } from "../../store/messageStore";
+import AuthorizationApi from '../../apis/authorization';
+import { getCurrentUser } from '../../slice/userSlice';
 
 function AdminDashboard() {
     const userDispatch = useDispatch();
     const navigate= useNavigate();
+    const authToken = localStorage.getItem('token');
+    const [, dispatch] = useContext(MessageContext);
+    const { pathname } = useLocation();
 
     const logout = () => {
         localStorage.removeItem('token');
-        userDispatch(removeUser)
+        userDispatch(removeUser());
     }
 
     const activeLink = () => {
@@ -31,13 +37,36 @@ function AdminDashboard() {
             $('.navigation').addClass('active')
         }
     }
+    const checkTokenIsValid = async () => {
+        try {
+            if(!authToken) {
+                navigate('/login');
+                toastErrorMessage(dispatch, { message: '無法取得權限，請先登入！' });
+            } else {
+                const res = await AuthorizationApi.getCurrentUser(authToken);
+                userDispatch(getCurrentUser({ ...res.data.currentUser, token: authToken }))
+            }
+           
+        } catch (error) {
+            if (error.response.status === 401) {
+                toastErrorMessage(dispatch, { message: '無法取得權限，請先登入！' });
+                navigate('/login');
+            } else {
+                handleErrorMessage(dispatch, error);
+            }
+        }
+    }
 
 
-
+    const location = useLocation();
     useEffect(() => {
+       
         activeLink();
-        navigate('/admin/home');
-    }, [])
+        if(pathname === '/admin/' || pathname === '/admin') {
+            navigate('/admin/orders');
+        }
+   
+    }, [pathname])
     return (
 
         <div className="admin-dashboard">
@@ -106,7 +135,7 @@ function AdminDashboard() {
                 </header>
                 <div className="admin-container">
                     
-                    <Outlet />
+                    <Outlet context={{ checkTokenIsValid }}/>
 
                 </div>
 
