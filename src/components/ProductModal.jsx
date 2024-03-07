@@ -137,7 +137,7 @@ function ProductModal({ type, closeProductModal, initialProduct, getProducts, ca
         if (type === 'create') {
             const defaultData = {
                 name: '',
-                categoryId: 1,
+                categoryId: categories[0].id,
                 image: '',
                 imagesUrl: [],
                 quantity: 10,
