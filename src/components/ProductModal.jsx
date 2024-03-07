@@ -130,14 +130,13 @@ function ProductModal({ type, closeProductModal, initialProduct, getProducts, ca
        
     }
     //打開Modal，載入產品資訊
-
     useEffect(() => {
         setState(true);
         clearErrors();
         if (type === 'create') {
             const defaultData = {
                 name: '',
-                categoryId: categories[0].id,
+                categoryId:  categories.length ? categories[0].id : '',
                 image: '',
                 imagesUrl: [],
                 quantity: 10,
