@@ -19,13 +19,11 @@ import ContactUs from './pages/front/ContactUs';
 import Search from './pages/front/Search';
 import BrandStory from './pages/front/BrandStory';
 import AdminDashboard from './pages/admin/AdminDashboard';
-import AdminHome from './pages/admin/AdminHome';
 import AdminOrders from './pages/admin/AdminOrders';
 import AdminProducts from './pages/admin/AdminProducts';
 import AdminCategories from './pages/admin/AdminCategrories';
 import AdminArticles from './pages/admin/AdminArticles';
 import NotFound from './pages/NotFound';
-
 import { MessageContext, MessageReducer, initState } from './store/messageStore';
 import { useReducer } from 'react';
 import AutoScrollToTop from './components/AutoScrollToTop';
@@ -60,7 +58,6 @@ function App() {
               <Route path="brandstory" element={<BrandStory />}></Route>
             </Route>
             <Route path="/admin" element={<AdminDashboard />}>
-              <Route path="home" element={<AdminHome />}></Route>
               <Route path="orders" element={<AdminOrders />}></Route>
               <Route path="products" element={<AdminProducts />}></Route>
               <Route path="categories" element={<AdminCategories />}></Route>

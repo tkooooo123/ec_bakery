@@ -41,9 +41,6 @@ white-space:nowrap;
 
     }
     
-
-
-    &-item:hover,
     .active {
         background-color: #fff;
 
@@ -119,11 +116,7 @@ main {
     }
 }
 
-//Recent Orders
-.recent-orders, .recent-users {
-    box-shadow: 0 7px 25px rgba(0, 0, 0, 0.08);
-    border-radius: 20px;
-}
+
 
 .admin-orders, .admin-products, .admin-categories, .admin-articles {
     box-shadow: 0 7px 25px rgba(0, 0, 0, 0.08);

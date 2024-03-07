@@ -56,9 +56,6 @@ function AdminDashboard() {
             }
         }
     }
-
-
-    const location = useLocation();
     useEffect(() => {
        
         activeLink();
@@ -73,15 +70,8 @@ function AdminDashboard() {
             <Message />
             <div className="navigation">
                 <ul className="navigation-list mt-5">
-                    <li className={`navigation-list-item ${location.hash.includes('home') ? 'active' : ''}`}>
-                        <Link className="nav-link d-flex align-items-center py-2" to="/admin/home">
-                            <span className="material-icons nav-link-icon fs-3 mx-3">
-                                home
-                            </span>
-                            <span className="nav-link-title ps-1 fw-bold">後台首頁</span>
-                        </Link>
-                    </li>
-                    <li className={`navigation-list-item ${location.hash.includes('orders') ? 'active' : ''}`}>
+                    
+                    <li className={`navigation-list-item ${pathname.includes('orders') ? 'active' : ''}`}>
                         <Link className="nav-link d-flex align-items-center py-2" to="/admin/orders">
                             <span className="material-icons fs-3 mx-3">
                                 list_alt
@@ -89,7 +79,7 @@ function AdminDashboard() {
                             <span className="nav-link-title ps-1 fw-bold">訂單管理</span>
                         </Link>
                     </li>
-                    <li className="navigation-list-item">
+                    <li className={`navigation-list-item ${pathname.includes('categories') ? 'active' : ''}`}>
                         <Link className="nav-link d-flex align-items-center py-2" to="/admin/categories">
                             <span className="material-icons fs-3 mx-3">
                                 category
@@ -97,7 +87,7 @@ function AdminDashboard() {
                             <span className="nav-link-title ps-1 fw-bold">分類管理</span>
                         </Link>
                     </li>
-                    <li className="navigation-list-item">
+                    <li className={`navigation-list-item ${pathname.includes('products') ? 'active' : ''}`}>
                         <Link className="nav-link d-flex align-items-center py-2" to="/admin/products">
                             <span className="material-icons fs-3 mx-3">
                                 view_in_ar
@@ -105,7 +95,7 @@ function AdminDashboard() {
                             <span className="nav-link-title ps-1 fw-bold">商品管理</span>
                         </Link>
                     </li>
-                    <li className="navigation-list-item">
+                    <li className={`navigation-list-item ${pathname.includes('articles') ? 'active' : ''}`}>
                         <Link className="nav-link d-flex align-items-center py-2" to="/admin/articles">
                             <span className="material-icons fs-3 mx-3">
                             article
