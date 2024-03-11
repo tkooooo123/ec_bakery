@@ -32,18 +32,17 @@ function Products() {
         try {
             setIsLoading(true);
             const res = await ProductsApi.getProducts({
-                page: page,
+                page: page || 1,
                 categoryId: categoryId || ""
             });
             setCategories([...res.data.categories]);
             setProducts([...res.data.products]);
             setPagination(res.data.pagination);
-
             if (categoryId) {
                 navigate(`/products?categoryId=${categoryId}&page=${page}`);
-            } else if (page > 1) {
+            } else  {
                 navigate(`/products?page=${page}`);
-            }
+            } 
             setIsLoading(false);
         } catch (error) {
             setIsLoading(false);
@@ -79,7 +78,7 @@ function Products() {
     }, [location])
 
     useEffect(() => {
-        fetchProducts(currentPage, categoryId);
+        fetchProducts(searchPage, categoryId);
     }, [categoryId, currentCategory, currentPage])
 
     useEffect(() => {
@@ -117,7 +116,7 @@ function Products() {
                                         setCurrentCategory(category.name);
                                         setCategoryId(category.id);
                                         setCurrentPage(1);
-                                        navigate(`/products?categoryId=${category.id}&page=1`)
+                                   
 
                                     }} ><span>{category.name}</span></li>
                                 )
