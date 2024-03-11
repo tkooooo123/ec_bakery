@@ -44,19 +44,13 @@ function Articles() {
                                         <div className="card-body ">
                                             <h5 className="card-title fw-bold ms-1">{article.title}</h5>
                                             <div>
-                                                <span className="badge text-dark m-1 py-0 px-1" style={{ backgroundColor: '#cac7c7' }}><span className="material-icons align-middle fs-6">
-                                                    drive_file_rename_outline
-                                                </span> {article.author}</span>
-                                                <span className="badge text-dark m-1 py-0 px-1" style={{ backgroundColor: '#cac7c7' }}><span className="material-icons align-middle fs-6">
-                                                    calendar_month
-                                                </span> {new Date(article.createdAt).toLocaleDateString()}</span>
+                                                <span className="badge text-dark m-1 py-1 px-1" style={{ backgroundColor: '#cac7c7' }}><i className="bi bi-pencil"></i> {article.author}</span>
+                                                <span className="badge text-dark m-1 py-1 px-1" style={{ backgroundColor: '#cac7c7' }}><i className="bi bi-calendar3"></i> {new Date(article.createdAt).toLocaleDateString()}</span>
                                             </div>
                                             <p className="card-text fw-bold text-muted ms-1">{article.description}</p>
                                             {article.tag?.map((tag, i) => {
                                                 return (
-                                                    <span className="bg-primary badge text-dark px-1 py-0 m-1" key={i}><span className="material-icons align-middle fs-6">
-                                                    label_important_outline
-                                                    </span>{tag}</span>
+                                                    <span className="bg-primary badge text-dark px-1 py-1 m-1" key={i}><i className="bi bi-tag-fill me-1"></i>{tag}</span>
                                                 )
                                             })}
                                         </div>

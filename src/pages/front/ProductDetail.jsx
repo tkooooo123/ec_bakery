@@ -17,7 +17,7 @@ function ProductDetail() {
     const [mainImage, setMainImage] = useState('')
     const [tempImages, setTempImages] = useState([]);
     const [toggler, setToggler] = useState(false);
-    const [isLoading, setIsLoading] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
     const [quantity, setQuantity] = useState(1);
     const { getCart } = useOutletContext();
     const [, dispatch] = useContext(MessageContext);
@@ -128,7 +128,7 @@ function ProductDetail() {
                     </div>
                     <div className="col-md-5 mt-md-0 ">
                         <h1 className="fw-bold text-primary">{product.name}</h1>
-                        <span className="fs-5 mt-3 text-secondary fw-bold">{category.name}</span>
+                        <span className="fs-5 mt-3 text-secondary fw-bold"><i className="bi bi-tag-fill me-1"></i>{category.name}</span>
                         <h4 className="fw-bold mt-3 text-danger">NT${product.price}</h4>
                         <div className="product-detail-quantity d-flex mt-5">
                             <div className="input-group">
