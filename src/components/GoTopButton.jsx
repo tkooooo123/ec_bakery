@@ -29,11 +29,11 @@ function GoTopButton() {
 
     return (
         <div className="fs-1">
-            <Link className="go-top text-primary d-flex justify-content-center align-items-center">
+            <Link className="go-top text-primary d-flex justify-content-center align-items-center"
+            onClick={() => {
+                goToTop();
+            }}>
                 <span className="material-icons fs-1"
-                    onClick={() => {
-                        goToTop();
-                    }}
                 >
                     expand_less
                 </span>
