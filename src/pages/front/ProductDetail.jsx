@@ -127,9 +127,9 @@ function ProductDetail() {
 
                     </div>
                     <div className="col-md-5 mt-md-0 ">
-                        <h1 className="fw-bold">{product.name}</h1>
-                        <span className="fs-4 mt-3">{category.name}</span>
-                        <h4 className="fw-bold mt-3">NT${product.price}</h4>
+                        <h1 className="fw-bold text-primary">{product.name}</h1>
+                        <span className="fs-5 mt-3 text-secondary fw-bold">{category.name}</span>
+                        <h4 className="fw-bold mt-3 text-danger">NT${product.price}</h4>
                         <div className="product-detail-quantity d-flex mt-5">
                             <div className="input-group">
                                 <div className="input-group-prepend">
@@ -162,6 +162,10 @@ function ProductDetail() {
                         <div className="product-detail-description">
                             <h4 className="fw-bold fs-4">商品介紹</h4>
                             <p className="fs-5">{product.description}</p>
+                        </div>
+                        <div className="product-detail-content">
+                            <h4 className="fw-bold fs-4">包裝規格</h4>
+                            <p className="fs-5">{product.unit}</p>
                         </div>
                         <div className="product-detail-content">
                             <h4 className="fw-bold fs-4">商品內容</h4>
