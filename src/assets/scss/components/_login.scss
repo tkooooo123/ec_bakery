@@ -1,0 +1,9 @@
+.login, .register {
+    a{
+        color: #000;
+    }
+    a:hover {
+        color: $primary;
+        text-decoration: underline;
+    }
+}
