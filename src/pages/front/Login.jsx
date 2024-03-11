@@ -28,7 +28,7 @@ function Login() {
                 localStorage.setItem("token", res.data.token);
                 userdispatch(createUserLogin(res.data))
                 if (res.data.user.role === 'admin') {
-                    navigate('/admin/home');
+                    navigate('/admin/');
                 } else {
                     navigate('/');
                 }
