@@ -48,6 +48,7 @@ Password: 12345678
 * react ^18.2.0
 * react-router-dom ^6.17.0
 * react-hook-form ^7.47.0
+* react-redux ^9.1.0
 * aos ^2.3.4
 * axios ^1.5.1
 * bootstrap ^5.3.2
