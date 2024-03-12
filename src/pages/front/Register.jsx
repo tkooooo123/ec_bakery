@@ -10,6 +10,7 @@ function Register() {
     const {
         register,
         handleSubmit,
+        watch,
         formState: { errors }
     } = useForm({
         mode: 'onTouched'
@@ -113,6 +114,8 @@ function Register() {
                                             value: 12,
                                             message: '密碼長度不超過12碼'
                                         },
+                                        validate: (value) =>
+                                        value === watch("password") || "與密碼不相同"
                                     }}
                                 >
                                 </Input>
