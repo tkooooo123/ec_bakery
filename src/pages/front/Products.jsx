@@ -16,8 +16,6 @@ function Products() {
     const [searchParams] = useSearchParams();
     const [categoryId, setCategoryId] = useState();
     const [isLoading, setIsLoading] = useState(true);
-
-
     const { getCart } = useOutletContext();
     const [, dispatch] = useContext(MessageContext);
     
@@ -28,21 +26,21 @@ function Products() {
     const searchPage = searchParams.get('page');
 
 
-    const fetchProducts = async (page, categoryId) => {
+    const fetchProducts = async (page) => {
         try {
             setIsLoading(true);
             const res = await ProductsApi.getProducts({
                 page: page || 1,
-                categoryId: categoryId || ""
+                categoryId: searchCategoryId || ""
             });
             setCategories([...res.data.categories]);
             setProducts([...res.data.products]);
             setPagination(res.data.pagination);
-            if (categoryId) {
-                navigate(`/products?categoryId=${categoryId}&page=${page}`);
-            } else  {
-                navigate(`/products?page=${page}`);
-            } 
+           if(searchCategoryId) {
+            navigate(`/products?categoryId=${searchCategoryId}&page=${page}`)
+           } else {
+            navigate(`/products?page=${page}`)
+           }
             setIsLoading(false);
         } catch (error) {
             setIsLoading(false);
@@ -74,12 +72,14 @@ function Products() {
 
     useEffect(() => {
         setCategoryId(Number(searchCategoryId));
-        setCurrentPage(searchPage);
     }, [location])
 
     useEffect(() => {
-        fetchProducts(searchPage, categoryId);
-    }, [categoryId, currentCategory, currentPage])
+        if(searchPage) {
+            setCurrentPage(searchPage);
+        }
+        fetchProducts(currentPage);
+    }, [categoryId])
 
     useEffect(() => {
         const category = categories.filter((item) => item.id === Number(categoryId))[0]
@@ -116,8 +116,7 @@ function Products() {
                                         setCurrentCategory(category.name);
                                         setCategoryId(category.id);
                                         setCurrentPage(1);
-                                   
-
+                                        navigate(`/products?categoryId=${category.id}&page=1`)
                                     }} ><span>{category.name}</span></li>
                                 )
                             })}
