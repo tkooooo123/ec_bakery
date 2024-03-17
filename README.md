@@ -28,12 +28,12 @@ https://tkooooo123.github.io/ec_bakery/#/
 
 ### 管理者帳號
 ```
-Email: root@gmail.com
+Email: root@example.com
 Password: 12345678
 ```
 ### 使用者帳號
 ```
-Email: user1@gmail.com
+Email: user1@example.com
 Password: 12345678
 ```
 ### 信用卡資料
